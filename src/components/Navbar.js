@@ -4,6 +4,7 @@ import mobileLogo from '../images/airbnb-logo.png'
 import { GlobeAltIcon, MenuIcon, SearchIcon } from '@heroicons/react/outline'
 import { UserCircleIcon } from '@heroicons/react/solid'
 import MenuExtra from './MenuExtra';
+import NavTab from './NavTab'
 
 
 export default function Navbar() {
@@ -39,8 +40,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
-                <div>
-                </div>
+                {/* <NavTab /> */}
             </nav>
         </>
     )

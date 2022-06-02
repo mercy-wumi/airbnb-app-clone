@@ -8,7 +8,7 @@ const MenuExtra = ({ open, setOpen }) => {
         setOpen(false)
     }
     const style = {
-        list: 'py-2 px-4 hover:bg-gray-100 text-base'
+        list: 'py-2 px-4 hover:bg-gray-100 text-base hover:cursor-pointer'
     }
     return (
         <>

@@ -1,13 +1,15 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Main from "./components/Main";
+import Rooms from "./components/Rooms";
 
 function App() {
   return (
     <>
       <Navbar />
-      <Main />
-      <Footer />
+      <Rooms />
+      {/* <Main />
+      <Footer /> */}
     </>
   );
 }
