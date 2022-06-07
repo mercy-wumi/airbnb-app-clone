@@ -3,7 +3,7 @@ import { StarIcon } from '@heroicons/react/solid'
 
 const CheckDate = ({ fixed }) => {
     return (
-        <div className={`${fixed ? 'fixed top-24 w-1/4 right-36' : ''} w-9/12 m-auto p-6 my-6 shadow-2xl rounded-xl`}>
+        <div className={`${fixed ? 'fixed top-24 md:w-60 lg:w-1/3 md:right-10 lg:right-16' : ''} hidden md:block w-10/12 ml-auto p-6 my-6 shadow-2xl rounded-xl`}>
             <div className='text-lg flex flex-wrap justify-between items-center font-semibold mb-4'>
                 <div className='flex'>
                     <span className='text-2xl mr-2'>$600</span>

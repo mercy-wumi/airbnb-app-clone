@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import LoginModal from './LoginModal'
 
 const MenuExtra = ({ open, setOpen }) => {
@@ -23,6 +24,7 @@ const MenuExtra = ({ open, setOpen }) => {
                 <div>
                     <ul>
                         <li className={style.list}>Host your home</li>
+                        <Link to='/wishlists'><li className={style.list}>WishLists</li></Link>
                         <li className={style.list}>Host an experience</li>
                         <li className={style.list}>Help</li>
                     </ul>
