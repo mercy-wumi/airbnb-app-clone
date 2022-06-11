@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
 
