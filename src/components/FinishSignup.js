@@ -1,23 +1,46 @@
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setValue } from '../features/authUser/userSlice'
+import { useDispatch } from 'react-redux'
+import { db } from '../firebase'
+import { collection, addDoc } from 'firebase/firestore/lite'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import UploadProfile from './UploadProfile'
 
 const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
 
-    const [upload, setUpload] = useState(false)
-
     const dispatch = useDispatch();
-    const { firstname, lastname, email, dob } = useSelector((store) => store.user)
+    const [upload, setUpload] = useState(false)
+    const [user, setUser] = useState({
+        firstname: '',
+        lastname: '',
+        email: '',
+        dateofbirth: ''
+    })
 
+    const handleChange = (e) => {
+        console.log(e.target.value)
+        const { name, value } = e.target
+        setUser({ ...user, [name]: value })
+    }
     const handleBackOTP = () => {
         setFinishSignup(false)
         setOpenOPT(true)
     }
-    const continueToUpload = () => {
-        setFinishSignup(false)
-        setUpload(true)
+    const continueToUpload = async () => {
+        await addDoc(collection(db, 'userDetails'), {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            dateofbirth: user.dateofbirth
+        })
+            .then((resp) => {
+                console.log(resp)
+                dispatch(setUser(user))
+                setFinishSignup(false)
+                setUpload(true)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     return (
@@ -33,19 +56,19 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
                     <div className='p-4'>
                         <div className='mt-16'>
                             <div className='flex flex-col border-[1px] rounded-xl p-2 rounded-b-none'>
-                                <input type='text' placeholder='First name' className='outline-0' value={firstname} onChange={(e) => dispatch(setValue(e.target.value))} />
+                                <input type='text' placeholder='First name' className='outline-0' onChange={handleChange} />
                             </div>
                             <div className='flex flex-col border-[1px] rounded-xl p-2 rounded-t-none'>
-                                <input type='text' placeholder='Last name' className='outline-0' value={lastname} onChange={(e) => dispatch(setValue(e.target.value))} />
+                                <input type='text' placeholder='Last name' className='outline-0' onChange={handleChange} />
                             </div>
                             <p className='text-xs py-1'>Make sure it matches the name on your government ID</p>
                         </div>
                         <div className='flex flex-col border-[1px] rounded-xl p-2 mt-2'>
-                            <input type='date' placeholder='Birthdate' className='outline-0' value={dob} onChange={(e) => dispatch(setValue(e.target.value))} />
+                            <input type='date' placeholder='Birthdate' className='outline-0' onChange={handleChange} />
                         </div>
                         <p className='text-xs py-1'>To signup, you need to be atleast 18.</p>
                         <div className='flex flex-col border-[1px] rounded-xl p-2 mt-2'>
-                            <input type='email' placeholder='Email' className='outline-0' value={email} onChange={(e) => dispatch(setValue(e.target.value))} />
+                            <input type='email' placeholder='Email' className='outline-0' onChange={handleChange} />
                         </div>
                         <p className='text-xs py-1'>We will email you trip confirmations and receipts</p>
                         <button className='w-full text-center rounded-lg bg-gradient-to-r from-red-600 to-pink-600 hover:from-pink-600 hover:to-red-600 font-bold py-3 text-white my-3' onClick={continueToUpload}>Agree and Continue</button>

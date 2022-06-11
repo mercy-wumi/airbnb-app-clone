@@ -4,22 +4,21 @@ const initialState = {
     firstname: '',
     lastname: '',
     email: '',
-    dob: ''
+    dateofbirth: ''
 }
 
 const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        setValue: (state, action) => {
-            state.firstname = action.payload;
-            state.lastname = action.payload;
-            state.email = action.payload;
-            state.dob = action.payload;
+        setUser: (state, action) => {
+            state.firstname = action.payload?.firstname;
+            state.lastname = action.payload?.lastname;
+            state.dateofbirth = action.payload?.dateofbirth;
+            state.email = action.payload?.email;
         }
     }
 })
 
-export const { setValue } = userSlice.actions;
-
+export const { user, setUser } = userSlice.actions;
 export default userSlice.reducer;

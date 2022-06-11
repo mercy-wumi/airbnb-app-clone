@@ -8,14 +8,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-import imgOne from '../images/imgOne.jpg'
-import imgTwo from '../images/imgTwo.jpg'
-import imgThree from '../images/imgThree.jpg'
-import imgFour from '../images/imgFour.jpg'
-import imgFive from '../images/imgFive.jpg'
-
-const ImgSlider = () => {
-    const [images] = useState([imgOne, imgTwo, imgThree, imgFour, imgFive])
+const ImgSlider = ({ img }) => {
     return (
         <Swiper
             //   spaceBetween={50}
@@ -26,7 +19,7 @@ const ImgSlider = () => {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
         >
-            {images.map((slideImg, index) => {
+            {img.map((slideImg, index) => {
                 return (
                     <SwiperSlide key={index}>
                         <img src={slideImg} alt='house-pix' className='rounded-xl object-cover w-full h-64' />

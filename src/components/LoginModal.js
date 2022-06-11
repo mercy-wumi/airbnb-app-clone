@@ -41,9 +41,9 @@ const LoginModal = ({ login, setLogin }) => {
 
     const handleOTP = (e) => {
         setOtp(e.target.value)
-        console.log(otp)
         if (otp.length === 6) {
             console.log(otp)
+            console.log('still working...')
             let confirmationResult = window.confirmationResult;
             confirmationResult.confirm(otp).then((result) => {
                 // User signed in successfully.

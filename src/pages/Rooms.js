@@ -193,7 +193,7 @@ const Rooms = () => {
                     </div>
                 </div>
             </div>
-            <FooterMenu />
+            {/* <FooterMenu /> */}
             <Footer />
         </>
     )
