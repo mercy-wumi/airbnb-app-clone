@@ -5,9 +5,9 @@ import ib from '../images/ib.jpg'
 const WishList = () => {
     return (
         <>
-            <div className='flex w-full text-gray-800 mb-8 text-sm'>
-                <img src={ib} alt='experience liked' className='rounded-xl w-1/3 xl:w-1/4 h-auto' />
-                <div className='flex flex-col justify-between ml-4 flex-1'>
+            <div className='md:flex w-full text-gray-800 mb-8 text-sm'>
+                <img src={ib} alt='experience liked' className='rounded-xl md:w-1/3 xl:w-1/4 h-auto' />
+                <div className='flex flex-col justify-between md:ml-4 flex-1 mt-8 md:my-4 my-0'>
                     <div className='flex flex-col'>
                         <div className='flex items-center justify-between'>
                             <div className='flex flex-col'>

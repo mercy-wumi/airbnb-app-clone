@@ -1,9 +1,28 @@
 import { useState } from 'react'
+import { Navigate, Link } from 'react-router-dom'
+// import { useSelector, useDispatch } from 'react-redux'
 import FooterMenu from './FooterMenu'
 import { ChevronUpIcon, GlobeAltIcon, SearchIcon, HeartIcon, UserCircleIcon } from '@heroicons/react/outline'
 
 const Footer = () => {
+    // const dispatch = useDispatch()
+    // const { active, setActive } = useSelector((store) => store.home)
     const [openFooterMenu, setOpenFooterMenu] = useState(false)
+    const [active, setActive] = useState('main')
+
+    const handleExplore = () => {
+        setActive('main')
+        if (active === 'main') {
+            <Navigate to="/" replace={true} />
+        }
+    }
+    const handleWishlist = () => {
+        setActive('wishlist')
+        console.log(active)
+    }
+    const style = {
+        activeMenu: 'text-pink-600'
+    }
 
     const handleOpen = () => {
         setOpenFooterMenu(true)
@@ -32,14 +51,16 @@ const Footer = () => {
                 </div>
             </footer>
             <footer className='md:hidden flex justify-center items-center w-full px-16 fixed bottom-0 border-t-[1px] h-16 z-20 bg-white text-gray-600 text-[12px]'>
-                <div className='flex flex-col items-center font-semibold mr-9'>
-                    <SearchIcon className='h-7 w-7 text-pink-600' />
+                <div className='flex flex-col items-center font-semibold mr-9' onClick={handleExplore}>
+                    <SearchIcon className={`${active === 'main' ? style.activeMenu : ''} h-7 w-7`} />
                     <span>Explore</span>
                 </div>
-                <div className='flex flex-col items-center mr-9'>
-                    <HeartIcon className='h-7 w-7' />
-                    <span>Wishlists</span>
-                </div>
+                <Link to='/wishlists' onClick={handleWishlist}>
+                    <div className='flex flex-col items-center mr-9'>
+                        <HeartIcon className={`${active === 'wishlist' ? style.activeMenu : ''} h-7 w-7`} />
+                        <span>Wishlists</span>
+                    </div>
+                </Link>
                 <div className='flex flex-col items-center'>
                     <UserCircleIcon className='h-7 w-7' />
                     <span>Log in</span>
