@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import FooterMenu from '../components/FooterMenu'
+// import FooterMenu from '../components/FooterMenu'
 import { StarIcon } from '@heroicons/react/solid'
 import { HeartIcon, ClipboardCheckIcon, ChevronLeftIcon } from '@heroicons/react/outline'
 
@@ -136,12 +136,12 @@ const Rooms = () => {
                         <div className={`${style.borderSection} text-lg`}>
                             <div className='font-bold text-4xl text-red-600 cursor-none'>air<span className='text-black'>cover</span></div>
                             <p className='py-4'>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
-                            <a href='#' className='underline font-semibold'>Learn more</a>
+                            <a href='/' className='underline font-semibold'>Learn more</a>
                         </div>
                         <div className={`${style.borderSection} text-lg`}>
                             <p className='py-4'>Modern Clifftop 3 Bedroom villa located at the southern end of Weligama bay with direct access to a semi private bay. Designed by world renowned Pritzker prize winning, Japanese architect Shigeru Ban, features infinity pool, cliff edge summer hut, large 8 acre garden. Very private and stunning views</p>
                             <p className='font-semibold pb-2'>The space...</p>
-                            <a href='#' className='underline font-semibold'>Learn more</a>
+                            <a href='/' className='underline font-semibold'>Learn more</a>
                         </div>
                         <div className={`${style.borderSection} text-lg`}>
                             <Heading title="Where you'll sleep" />

@@ -87,7 +87,7 @@ const LoginModal = ({ login, setLogin }) => {
                             <span className='text-gray-600'>Phone Number</span>
                             <input type='tel' placeholder='(+234)' className='outline-0' value={phone} onChange={(e) => setPhone(e.target.value)} required />
                         </div>
-                        <p className='text-xs py-1'>We’ll call or text you to confirm your number. Standard message and data rates apply. <br /><a href='#' className='underline'>Privacy Policy</a></p>
+                        <p className='text-xs py-1'>We’ll call or text you to confirm your number. Standard message and data rates apply. <br /><a href='/' className='underline'>Privacy Policy</a></p>
                         <button className='w-full text-center rounded-lg bg-gradient-to-r from-red-600 to-pink-600 hover:from-pink-600 hover:to-red-600 font-bold py-3 text-white my-3' onClick={signup}>Continue</button>
                     </div>
                     <div className='flex flex-col p-4'>

@@ -10,15 +10,15 @@ import { StarIcon } from '@heroicons/react/solid'
 const ExperienceCard = () => {
     const { homeData } = useSelector((store) => store.home)
     const [like, setLike] = useState(false)
-    const [room, setRoom] = useState(null)
+    // const [room, setRoom] = useState(null)
 
     const handleLike = () => {
         setLike(true)
         console.log(like)
     }
-    const handleRoom = () => {
+    // const handleRoom = () => {
 
-    }
+    // }
 
     return (
         <Link to='/rooms' className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
