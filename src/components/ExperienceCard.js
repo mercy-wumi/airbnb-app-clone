@@ -1,53 +1,62 @@
 // import imgTwo from '../images/imgTwo.jpg'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImgSlider from './ImgSlider'
 import { HeartIcon } from '@heroicons/react/outline'
-// import { HeartIcon } from '@heroicons/react/solid'
 import { StarIcon } from '@heroicons/react/solid'
+import { setRoom, selectRoom } from '../features/home/homeSlice'
 
 const ExperienceCard = () => {
-    const { homeData } = useSelector((store) => store.home)
+    const dispatch = useDispatch()
+    const { room, homeData } = useSelector((store) => store.home)
     const [like, setLike] = useState(false)
+    const [active, setActive] = useState('')
     // const [room, setRoom] = useState(null)
 
-    const handleLike = () => {
-        setLike(true)
-        console.log(like)
-    }
-    // const handleRoom = () => {
+    const userInfo = useSelector(selectRoom);
+    console.log("userInfo", userInfo);
 
-    // }
+    const handleLike = (index) => {
+        setActive(index)
+        setLike(!like)
+        console.log(active)
+    }
+    const handleRoom = (data) => {
+        console.log(dispatch(setRoom(data)))
+        console.log(room)
+    }
 
     return (
-        <Link to='/rooms' className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-            {homeData.map((data) => {
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+            {homeData.map((data, index) => {
                 return (
-                    <div className='flex flex-col' key={data.id}>
+                    <div className='flex flex-col' key={index} onClick={() => handleRoom(data)}>
                         <div className='relative'>
-                            <HeartIcon className='z-10 h-8 w-8 right-4 absolute top-4 text-white cursor-pointer' onClick={handleLike} />
+                            <HeartIcon onClick={() => handleLike(index)} className={`${like && active === index ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
                             {/* <img src={imgTwo} alt='house-pix' className='rounded-xl object-cover w-full h-64' /> */}
-                            <ImgSlider img={data.img} />
+                            <Link to='/rooms'><ImgSlider img={data.img} /></Link>
                         </div>
                         <div>
-                            <div className='flex justify-between items-center pt-2'>
-                                <p className='font-semibold'>{data.name}</p>
-                                <div className='flex items-center'>
-                                    <span>{data.rating}</span>
-                                    <StarIcon className='h-5 w-5 ml-1' />
+                            <Link to='/rooms'>
+                                <div className='flex justify-between items-center pt-2'>
+                                    <p className='font-semibold'>{data.name}</p>
+                                    <div className='flex items-center'>
+                                        <span>{data.rating}</span>
+                                        <StarIcon className='h-5 w-5 ml-1' />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='text-gray-600 mb-1'>
-                                <p>{data.designedBy}</p>
-                                <p>{data.date}</p>
-                            </div>
-                            <p><span className='font-semibold'>{data.price}</span> night</p>
+                                <div className='text-gray-600 mb-1'>
+                                    <p>{data.designedBy}</p>
+                                    <p>{data.date}</p>
+                                </div>
+                                <p><span className='font-semibold'>{data.price}</span> night</p>
+                            </Link>
                         </div>
                     </div>
                 )
             })}
-        </Link>
+        </div>
     )
 }
 

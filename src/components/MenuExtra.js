@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import LoginModal from './LoginModal'
+import { setLogin } from '../features/modal/modalSlice'
+import { useDispatch } from 'react-redux'
 
 const MenuExtra = ({ open, setOpen }) => {
-    const [login, setLogin] = useState(false)
+    const dispatch = useDispatch()
+    // const [login, setLogin] = useState(false)
     const handleLogin = () => {
-        setLogin(true)
+        dispatch(setLogin())
         setOpen(false)
     }
     const style = {
@@ -30,7 +33,7 @@ const MenuExtra = ({ open, setOpen }) => {
                     </ul>
                 </div>
             </div>
-            <LoginModal login={login} setLogin={setLogin} />
+            <LoginModal />
         </>
     )
 }

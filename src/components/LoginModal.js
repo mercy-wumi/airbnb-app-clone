@@ -3,8 +3,12 @@ import { XIcon } from '@heroicons/react/outline'
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from '../firebase'
 import OTPcode from './OTPcode';
+import { useDispatch, useSelector } from 'react-redux'
+import { closeLogin } from '../features/modal/modalSlice'
 
-const LoginModal = ({ login, setLogin }) => {
+const LoginModal = () => {
+    const dispatch = useDispatch()
+    const { login } = useSelector((store) => store.modal)
     const [phone, setPhone] = useState('')
     const [openOTP, setOpenOTP] = useState(false)
     const [otp, setOtp] = useState('')
@@ -12,7 +16,7 @@ const LoginModal = ({ login, setLogin }) => {
 
 
     const handleLoginClose = () => {
-        setLogin(false)
+        dispatch(closeLogin())
     }
 
     const generateRecaptcha = () => {
@@ -35,7 +39,7 @@ const LoginModal = ({ login, setLogin }) => {
                 // Error; SMS not sent
                 console.log(error)
             });
-        setLogin(false)
+        dispatch(closeLogin())
         setOpenOTP(true)
     }
 
@@ -68,9 +72,10 @@ const LoginModal = ({ login, setLogin }) => {
             <div className={`${login ? ' block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
                 <div className='w-9/12 lg:w-5/12 relative h-5/6 bg-white text-black rounded-xl overflow-auto'>
                     <div className='px-4 flex font-bold h-16 justify-start items-center border-b-[1px] fixed w-9/12 lg:w-5/12 bg-white rounded-t-xl'>
-                        <div className='flex justify-start w-8/12'>
-                            <div className='hover:bg-gray-100 rounded-full border-0 cursor-pointer w-8 h-8 flex items-center justify-center mr-auto'><XIcon className='h-5 w-5' onClick={handleLoginClose} /></div>
+                        <div className='flex justify-between w-full'>
+                            <div className='hover:bg-gray-100 rounded-full border-0 cursor-pointer w-8 h-8 flex items-center justify-center'><XIcon className='h-5 w-5' onClick={handleLoginClose} /></div>
                             <span className='mr-4'>Log in or sign up</span>
+                            <span></span>
                         </div>
                     </div>
                     <div className='px-4 mt-16'>
@@ -102,7 +107,7 @@ const LoginModal = ({ login, setLogin }) => {
             <OTPcode
                 openOTP={openOTP}
                 setOpenOTP={setOpenOTP}
-                setLogin={setLogin}
+                // setLogin={setLogin}
                 otp={otp}
                 setOtp={setOtp}
                 handleOTP={handleOTP}

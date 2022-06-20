@@ -1,19 +1,24 @@
 import React from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
+import { useDispatch } from 'react-redux'
+import { setLogin } from '../features/modal/modalSlice'
 
-const OTPcode = ({ openOTP, setOpenOTP, setLogin, otp, handleOTP, finishSignup, setFinishSignup }) => {
+const OTPcode = ({ openOTP, setOpenOTP, otp, handleOTP, finishSignup, setFinishSignup }) => {
+    const dispatch = useDispatch()
+
     const handleBack = () => {
         setOpenOTP(false)
-        setLogin(true)
+        dispatch(setLogin())
     }
     return (
         <>
             <div className={`${openOTP ? 'block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
                 <div className='w-2/3 lg:w-1/3 relative bg-white text-black h-auto rounded-xl'>
-                    <div className='px-4 flex font-bold h-16 items-center border-b-[1px] fixed w-2/3 lg:w-1/3 bg-white rounded-t-xl'>
+                    <div className='px-4 flex justify-between font-bold h-16 items-center border-b-[1px] fixed w-2/3 lg:w-1/3 bg-white rounded-t-xl'>
                         <div className='hover:bg-gray-100 rounded-full border-0 cursor-pointer w-8 h-8 flex items-center justify-center'><ChevronLeftIcon className='h-5 w-5' onClick={handleBack} /></div>
-                        <span className='ml-28'>Confirm your number</span>
+                        <span>Confirm your number</span>
+                        <span></span>
                     </div>
                     <div className='px-4 mt-16 py-8'>
                         <p>Enter the code we sent over SMS to +234 8065980493</p>

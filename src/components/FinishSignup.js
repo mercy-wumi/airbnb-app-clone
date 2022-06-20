@@ -1,15 +1,26 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import { db } from '../firebase'
 import { collection, addDoc } from 'firebase/firestore/lite'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import UploadProfile from './UploadProfile'
 
+import { setUser, selectUser } from '../features/authUser/userSlice'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+
 const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
+
+    const { addBio } = useSelector((store) => store.modal)
+
+    const userInfo = useSelector(selectUser);
+    console.log("userInfo", userInfo);
+
 
     const dispatch = useDispatch();
     const [upload, setUpload] = useState(false)
-    const [user, setUser] = useState({
+    const [user, setUsers] = useState({
         firstname: '',
         lastname: '',
         email: '',
@@ -17,16 +28,17 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
     })
 
     const handleChange = (e) => {
-        console.log(e.target.value)
         const { name, value } = e.target
-        setUser({ ...user, [name]: value })
+        setUsers({ ...user, [name]: value })
     }
     const handleBackOTP = () => {
         setFinishSignup(false)
         setOpenOPT(true)
     }
     const continueToUpload = async () => {
-        await addDoc(collection(db, 'userDetails'), {
+        console.log(dispatch(setUser(user)))
+        await addDoc(collection(db, 'user-details'), {
+            // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
@@ -45,7 +57,7 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
 
     return (
         <>
-            <div className={`${finishSignup ? ' block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
+            <div className={`${addBio ? ' block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
                 <div className='w-9/12 lg:w-5/12 relative h-auto bg-white text-black rounded-xl overflow-auto'>
                     <div className='px-4 flex font-bold h-16 justify-start items-center border-b-[1px] fixed w-9/12 lg:w-5/12 bg-white rounded-t-xl'>
                         <div className='flex justify-start w-8/12'>
@@ -56,19 +68,19 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
                     <div className='p-4'>
                         <div className='mt-16'>
                             <div className='flex flex-col border-[1px] rounded-xl p-2 rounded-b-none'>
-                                <input type='text' placeholder='First name' className='outline-0' onChange={handleChange} />
+                                <input type='text' placeholder='First name' className='outline-0' name='firstname' onChange={handleChange} />
                             </div>
                             <div className='flex flex-col border-[1px] rounded-xl p-2 rounded-t-none'>
-                                <input type='text' placeholder='Last name' className='outline-0' onChange={handleChange} />
+                                <input type='text' placeholder='Last name' className='outline-0' name='lastname' onChange={handleChange} />
                             </div>
                             <p className='text-xs py-1'>Make sure it matches the name on your government ID</p>
                         </div>
                         <div className='flex flex-col border-[1px] rounded-xl p-2 mt-2'>
-                            <input type='date' placeholder='Birthdate' className='outline-0' onChange={handleChange} />
+                            <input type='date' placeholder='Birthdate' className='outline-0' name='dateofbirth' onChange={handleChange} />
                         </div>
                         <p className='text-xs py-1'>To signup, you need to be atleast 18.</p>
                         <div className='flex flex-col border-[1px] rounded-xl p-2 mt-2'>
-                            <input type='email' placeholder='Email' className='outline-0' onChange={handleChange} />
+                            <input type='email' placeholder='Email' className='outline-0' name='email' onChange={handleChange} />
                         </div>
                         <p className='text-xs py-1'>We will email you trip confirmations and receipts</p>
                         <button className='w-full text-center rounded-lg bg-gradient-to-r from-red-600 to-pink-600 hover:from-pink-600 hover:to-red-600 font-bold py-3 text-white my-3' onClick={continueToUpload}>Agree and Continue</button>

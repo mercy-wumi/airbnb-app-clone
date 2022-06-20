@@ -3,20 +3,20 @@ import homeData from "../../homeData";
 
 const initialState = {
     homeData: homeData,
-    active: 'main',
-    room: null
+    room: {}
 }
 
 const homeSlice = createSlice({
     name: 'home',
     initialState,
     reducers: {
-        setActive: (state, action) => {
-            state.active = action.payload;
+        setRoom: (state, action) => {
+            state.room = { ...action.payload };
         }
     }
 })
 
+export const { setRoom } = homeSlice.actions;
+export const selectRoom = (state) => state?.home;
 
-export const { active, setActive } = homeSlice.actions;
 export default homeSlice.reducer;

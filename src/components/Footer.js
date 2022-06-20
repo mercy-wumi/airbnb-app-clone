@@ -1,14 +1,19 @@
 import { useState } from 'react'
 import { Navigate, Link } from 'react-router-dom'
-// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import FooterMenu from './FooterMenu'
+import { openBio } from '../features/modal/modalSlice'
 import { ChevronUpIcon, GlobeAltIcon, SearchIcon, HeartIcon, UserCircleIcon } from '@heroicons/react/outline'
 
 const Footer = () => {
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     // const { active, setActive } = useSelector((store) => store.home)
     const [openFooterMenu, setOpenFooterMenu] = useState(false)
     const [active, setActive] = useState('main')
+
+    const handleOpenLogin = () => {
+        dispatch(openBio())
+    }
 
     const handleExplore = () => {
         setActive('main')
@@ -61,7 +66,7 @@ const Footer = () => {
                         <span>Wishlists</span>
                     </div>
                 </Link>
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center' onClick={handleOpenLogin}>
                     <UserCircleIcon className='h-7 w-7' />
                     <span>Log in</span>
                 </div>

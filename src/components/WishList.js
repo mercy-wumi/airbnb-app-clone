@@ -1,5 +1,5 @@
 import React from 'react'
-import { HeartIcon, StarIcon } from '@heroicons/react/solid'
+import { HeartIcon, StarIcon } from '@heroicons/react/outline'
 import ib from '../images/ib.jpg'
 
 const WishList = () => {

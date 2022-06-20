@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 // import FooterMenu from '../components/FooterMenu'
 import { StarIcon } from '@heroicons/react/solid'
+import { useSelector } from 'react-redux';
 import { HeartIcon, ClipboardCheckIcon, ChevronLeftIcon } from '@heroicons/react/outline'
 
 import 'swiper/css';
@@ -18,7 +19,9 @@ import Bedroom from '../components/Bedroom'
 import Heading from '../components/Heading'
 
 const Rooms = () => {
+    const { room } = useSelector(store => store.home)
     const [fixed, setFixed] = useState(false)
+    const [like, setLike] = useState(false)
     const [mobWidth, setMobWidth] = useState(window.innerWidth)
     const mobileBreakPoint = 768
     const style = {
@@ -32,6 +35,10 @@ const Rooms = () => {
         } else if (scrolled <= 500) {
             setFixed(false)
         }
+    }
+    console.log(room.img)
+    const handleLike = (data) => {
+        setLike(!like)
     }
 
     useEffect(() => {
@@ -51,17 +58,22 @@ const Rooms = () => {
                             <Link to='/'><div className='hover:bg-gray-100 rounded-full border-0 cursor-pointer w-8 h-8 flex items-center justify-center'><ChevronLeftIcon className='h-5 w-5' /></div></Link>
                             <div className='flex ml-4'><span>Homes</span><span className='px-2'>&middot;</span><span className='hover:underline cursor-pointer'>Airbnb</span></div>
                         </div>
-                        <HeartIcon className='h-5 w-5 mr-2' />
+                        {/* <HeartIcon className='h-5 w-5 mr-2' /> */}
+                        <HeartIcon onClick={() => handleLike()} className={`${like ? 'text-red-700' : 'text-gray-700'} h-5 w-5 mr-2`} />
+
                     </div>
                     <Swiper
                         slidesPerView={1}
                         onSlideChange={() => console.log('slide change')}
                         onSwiper={(swiper) => console.log(swiper)}
                     >
-                        <SwiperSlide>
-                            <img src={ib} alt='house-pix' className='object-cover w-full h-auto' />
-                        </SwiperSlide>
-                        <SwiperSlide>
+                        {room.img.map(rooms =>
+                            <SwiperSlide>
+                                <img src={rooms} alt='room display' className='object-cover w-full h-auto' />
+                            </SwiperSlide>
+                        )}
+
+                        {/* <SwiperSlide>
                             <img src={ikeja} alt='house-pix' className='object-cover w-full h-auto' />
                         </SwiperSlide>
                         <SwiperSlide>
@@ -69,7 +81,7 @@ const Rooms = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <img src={benin} alt='house-pix' className='object-cover w-full h-auto' />
-                        </SwiperSlide>
+                        </SwiperSlide> */}
                     </Swiper>
                 </div>
                 : <Navbar />
@@ -84,20 +96,24 @@ const Rooms = () => {
                             <div className='flex'><span className='px-2'>&middot;</span><span className='underline cursor-pointer'>Mirissa,Southern Province, Sri Lanka</span></div>
                         </div>
                         <div className='hidden md:flex items-center'>
-                            <HeartIcon className='h-5 w-5 mr-2' />
+                            {/* <HeartIcon className='h-5 w-5 mr-2' /> */}
+                            <HeartIcon onClick={() => handleLike()} className={`${like ? 'text-red-700' : 'text-gray-700'} h-5 w-5 mr-2`} />
                             <span>Save</span>
                         </div>
                     </div>
                 </div>
                 <div className='hidden md:flex'>
                     <div className='w-1/2 mr-2'>
-                        <img src={ib} alt='room display' />
+                        <img src={room.img[0]} alt='room display' />
                     </div>
                     <div className='w-1/2 md:grid hidden md:grid-cols-2 gap-2'>
-                        <img src={ph} alt='room display' />
+                        {room.img
+                            .slice(1, room.img.length)
+                            .map(rooms => { return (<img src={rooms} alt='room display' />) })}
+                        {/* <img src={ph} alt='room display' />
                         <img src={ikeja} alt='room display' />
                         <img src={benin} alt='room display' />
-                        <img src={ib} alt='room display' />
+                        <img src={ib} alt='room display' /> */}
                     </div>
                 </div>
                 <div className='flex'>
