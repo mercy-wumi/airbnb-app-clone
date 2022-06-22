@@ -72,16 +72,6 @@ const Rooms = () => {
                                 <img src={rooms} alt='room display' className='object-cover w-full h-auto' />
                             </SwiperSlide>
                         )}
-
-                        {/* <SwiperSlide>
-                            <img src={ikeja} alt='house-pix' className='object-cover w-full h-auto' />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src={ph} alt='house-pix' className='object-cover w-full h-auto' />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <img src={benin} alt='house-pix' className='object-cover w-full h-auto' />
-                        </SwiperSlide> */}
                     </Swiper>
                 </div>
                 : <Navbar />
@@ -110,10 +100,6 @@ const Rooms = () => {
                         {room.img
                             .slice(1, room.img.length)
                             .map(rooms => { return (<img src={rooms} alt='room display' />) })}
-                        {/* <img src={ph} alt='room display' />
-                        <img src={ikeja} alt='room display' />
-                        <img src={benin} alt='room display' />
-                        <img src={ib} alt='room display' /> */}
                     </div>
                 </div>
                 <div className='flex'>

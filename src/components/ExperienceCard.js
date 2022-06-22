@@ -5,22 +5,25 @@ import { Link } from 'react-router-dom'
 import ImgSlider from './ImgSlider'
 import { HeartIcon } from '@heroicons/react/outline'
 import { StarIcon } from '@heroicons/react/solid'
+import { setWishList } from '../features/likes/likeSlice'
 import { setRoom, selectRoom } from '../features/home/homeSlice'
 
 const ExperienceCard = () => {
     const dispatch = useDispatch()
     const { room, homeData } = useSelector((store) => store.home)
-    const [like, setLike] = useState(false)
-    const [active, setActive] = useState('')
+    const [active, setActive] = useState([])
     // const [room, setRoom] = useState(null)
 
     const userInfo = useSelector(selectRoom);
     console.log("userInfo", userInfo);
 
-    const handleLike = (index) => {
-        setActive(index)
-        setLike(!like)
-        console.log(active)
+    const handleLike = (id) => {
+        if (active.includes(id)) {
+            setActive(active.filter(filterActive => filterActive !== id))
+        }
+        else {
+            setActive([...active, id])
+        }
     }
     const handleRoom = (data) => {
         console.log(dispatch(setRoom(data)))
@@ -33,7 +36,7 @@ const ExperienceCard = () => {
                 return (
                     <div className='flex flex-col' key={index} onClick={() => handleRoom(data)}>
                         <div className='relative'>
-                            <HeartIcon onClick={() => handleLike(index)} className={`${like && active === index ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
+                            <HeartIcon onClick={() => handleLike(data)} className={`${active.includes(data) ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
                             {/* <img src={imgTwo} alt='house-pix' className='rounded-xl object-cover w-full h-64' /> */}
                             <Link to='/rooms'><ImgSlider img={data.img} /></Link>
                         </div>
