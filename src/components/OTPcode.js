@@ -1,15 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
-import { useDispatch } from 'react-redux'
-import { setLogin } from '../features/modal/modalSlice'
+import { useSelector, useDispatch } from 'react-redux'
+import { setLogin, openBio } from '../features/modal/modalSlice'
 
-const OTPcode = ({ openOTP, setOpenOTP, otp, handleOTP, finishSignup, setFinishSignup }) => {
+const OTPcode = ({ openOTP, setOpenOTP }) => {
     const dispatch = useDispatch()
+
+    const [otp, setOtp] = useState('')
+    // const [finishSignup, setFinishSignup] = useState(false)
 
     const handleBack = () => {
         setOpenOTP(false)
         dispatch(setLogin())
+    }
+
+    const handleOTP = (e) => {
+        setOtp(e.target.value)
+        console.log(otp)
+    }
+
+    const verifyOTP = () => {
+        if (otp.length === 6) {
+            console.log(otp)
+            console.log('still working...')
+            let confirmationResult = window.confirmationResult;
+            confirmationResult.confirm(otp).then((result) => {
+                // User signed in successfully.
+                // const user = result.user;
+                console.log(result)
+                // setFinishSignup(true)
+                dispatch(openBio())
+                setOpenOTP(false)
+                // ...
+            }).catch((error) => {
+                // User couldn't sign in (bad verification code?)
+                // ...
+                console.log(error)
+            });
+        }
     }
     return (
         <>
@@ -22,14 +51,17 @@ const OTPcode = ({ openOTP, setOpenOTP, otp, handleOTP, finishSignup, setFinishS
                     </div>
                     <div className='px-4 mt-16 py-8'>
                         <p>Enter the code we sent over SMS to +234 8065980493</p>
-                        <input type='number' onChange={handleOTP} value={otp} className='w-full border-[1px] border-gray-400 p-2 my-4 rounded-lg' />
+                        <div className='flex my-4'>
+                            <input type='number' value={otp} onChange={handleOTP} className='w-full border-[1px] border-gray-400 p-2 rounded-lg' />
+                            <button className='rounded-lg bg-gradient-to-r from-red-600 to-pink-600 hover:from-pink-600 hover:to-red-600 font-bold px-3 ml-1 text-white' onClick={verifyOTP}>Verify</button>
+                        </div>
                         <p>Didn't get a code?<span className='underline font-semibold'>More options</span></p>
                     </div>
                 </div>
             </div>
             <FinishSignup
-                finishSignup={finishSignup}
-                setFinishSignup={setFinishSignup}
+                // finishSignup={finishSignup}
+                // setFinishSignup={setFinishSignup}
                 setOpenOTP={setOpenOTP}
             />
         </>

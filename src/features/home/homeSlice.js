@@ -12,6 +12,8 @@ const homeSlice = createSlice({
     reducers: {
         setRoom: (state, action) => {
             state.room = { ...action.payload };
+            // still works when you use this
+            // state.room = action.payload;
         }
     }
 })

@@ -11,8 +11,6 @@ const LoginModal = () => {
     const { login } = useSelector((store) => store.modal)
     const [phone, setPhone] = useState('')
     const [openOTP, setOpenOTP] = useState(false)
-    const [otp, setOtp] = useState('')
-    const [finishSignup, setFinishSignup] = useState(false)
 
 
     const handleLoginClose = () => {
@@ -41,27 +39,6 @@ const LoginModal = () => {
             });
         dispatch(closeLogin())
         setOpenOTP(true)
-    }
-
-    const handleOTP = (e) => {
-        setOtp(e.target.value)
-        if (otp.length === 6) {
-            console.log(otp)
-            console.log('still working...')
-            let confirmationResult = window.confirmationResult;
-            confirmationResult.confirm(otp).then((result) => {
-                // User signed in successfully.
-                // const user = result.user;
-                // console.log(user)
-                setFinishSignup(true)
-                setOpenOTP(false)
-                // ...
-            }).catch((error) => {
-                // User couldn't sign in (bad verification code?)
-                // ...
-                console.log(error)
-            });
-        }
     }
 
     const style = {
@@ -107,12 +84,12 @@ const LoginModal = () => {
             <OTPcode
                 openOTP={openOTP}
                 setOpenOTP={setOpenOTP}
-                // setLogin={setLogin}
-                otp={otp}
-                setOtp={setOtp}
-                handleOTP={handleOTP}
-                finishSignup={finishSignup}
-                setFinishSignup={setFinishSignup}
+            // setLogin={setLogin}
+            // otp={otp}
+            // setOtp={setOtp}
+            // handleOTP={handleOTP}
+            // finishSignup={finishSignup}
+            // setFinishSignup={setFinishSignup}
             />
         </>
     )

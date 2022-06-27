@@ -4,7 +4,8 @@ const initialState = {
     firstname: '',
     lastname: '',
     email: '',
-    dateofbirth: ''
+    dateofbirth: '',
+    imgUrl: null
 }
 
 const userSlice = createSlice({
@@ -16,6 +17,7 @@ const userSlice = createSlice({
             state.lastname = action.payload?.lastname;
             state.dateofbirth = action.payload?.dateofbirth;
             state.email = action.payload?.email;
+            state.imgUrl = action.payload?.imgUrl;
         }
     }
 })

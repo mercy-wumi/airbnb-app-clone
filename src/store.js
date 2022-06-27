@@ -11,4 +11,8 @@ export const store = configureStore({
         modal: ModalReducer,
         likes: likeSlice
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        })
 });

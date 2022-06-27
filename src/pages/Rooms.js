@@ -99,7 +99,7 @@ const Rooms = () => {
                     <div className='w-1/2 md:grid hidden md:grid-cols-2 gap-2'>
                         {room.img
                             .slice(1, room.img.length)
-                            .map(rooms => { return (<img src={rooms} alt='room display' />) })}
+                            .map((rooms, index) => { return (<img src={rooms} key={index} alt='room display' />) })}
                     </div>
                 </div>
                 <div className='flex'>

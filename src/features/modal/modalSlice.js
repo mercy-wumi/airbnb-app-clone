@@ -17,10 +17,13 @@ const modalSlice = createSlice({
         },
         openBio: (state, action) => {
             state.addBio = true;
-        }
+        },
+        closeBio: (state, action) => {
+            state.addBio = false;
+        },
     }
 })
 
 
-export const { setLogin, closeLogin, openBio } = modalSlice.actions;
+export const { setLogin, closeLogin, openBio, closeBio } = modalSlice.actions;
 export default modalSlice.reducer;

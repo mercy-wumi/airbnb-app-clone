@@ -3,11 +3,14 @@ import logo from '../images/airbnb.svg'
 import mobileLogo from '../images/airbnb-logo.png'
 import { GlobeAltIcon, MenuIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline'
 import { UserCircleIcon } from '@heroicons/react/solid'
+import { useSelector } from 'react-redux'
 import MenuExtra from './MenuExtra';
 // import NavTab from './NavTab'
 
 
 export default function Navbar() {
+    const { imgUrl } = useSelector((store) => store.user)
+
     const [open, setOpen] = useState(false)
     const handleOpen = () => {
         setOpen(!open)
@@ -35,7 +38,12 @@ export default function Navbar() {
                         <div className='hover:bg-gray-100 rounded-full border-0 lg:mr-2 cursor-pointer'><GlobeAltIcon className={`m-3 ${style.iconsClass}`} /></div>
                         <div className='flex rounded-3xl justify-between items-center border-2 p-0.5 hover:shadow-md' onClick={handleOpen}>
                             <MenuIcon className={`mx-2 ${style.iconsClass}`} />
-                            <UserCircleIcon className='h-9 w-9' />
+                            <div className='w-1/2 mx-auto'>
+                                {imgUrl ? <img src={imgUrl} alt='profile picture' className='w-8 h-8 rounded-full object-cover' />
+                                    : <UserCircleIcon className='h-9 w-9' />}
+                            </div>
+                            {/* {imgUrl && <img src={imgUrl} alt='profile picture' className='w-1/2' />}
+                            <UserCircleIcon className='h-9 w-9' /> */}
                         </div>
                     </div>
                 </div>

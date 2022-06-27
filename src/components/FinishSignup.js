@@ -6,11 +6,12 @@ import { ChevronLeftIcon } from '@heroicons/react/outline'
 import UploadProfile from './UploadProfile'
 
 import { setUser, selectUser } from '../features/authUser/userSlice'
+import { openBio, closeBio } from '../features/modal/modalSlice'
 
 import { useDispatch, useSelector } from 'react-redux'
 
 
-const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
+const FinishSignup = ({ setOpenOPT }) => {
 
     const { addBio } = useSelector((store) => store.modal)
 
@@ -24,7 +25,8 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
         firstname: '',
         lastname: '',
         email: '',
-        dateofbirth: ''
+        dateofbirth: '',
+        // imgUrl: null
     })
 
     const handleChange = (e) => {
@@ -32,27 +34,13 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
         setUsers({ ...user, [name]: value })
     }
     const handleBackOTP = () => {
-        setFinishSignup(false)
+        // setFinishSignup(false)
+        dispatch(closeBio())
         setOpenOPT(true)
     }
-    const continueToUpload = async () => {
-        console.log(dispatch(setUser(user)))
-        await addDoc(collection(db, 'user-details'), {
-            // timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            firstname: user.firstname,
-            lastname: user.lastname,
-            email: user.email,
-            dateofbirth: user.dateofbirth
-        })
-            .then((resp) => {
-                console.log(resp)
-                dispatch(setUser(user))
-                setFinishSignup(false)
-                setUpload(true)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+    const continueToUpload = () => {
+        dispatch(closeBio())
+        setUpload(true)
     }
 
     return (
@@ -87,7 +75,7 @@ const FinishSignup = ({ finishSignup, setFinishSignup, setOpenOPT }) => {
                     </div>
                 </div>
             </div>
-            <UploadProfile upload={upload} setUpload={setUpload} setFinishSignup={setFinishSignup} />
+            <UploadProfile upload={upload} setUpload={setUpload} user={user} setUsers={setUsers} />
         </>
     )
 }
