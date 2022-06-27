@@ -40,7 +40,7 @@ const ExperienceCard = () => {
                 return (
                     <div className='flex flex-col' key={index} onClick={() => handleRoom(data)}>
                         <div className='relative'>
-                            <HeartIcon onClick={() => handleLike(data)} className={`${wishList.includes(data) ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
+                            <HeartIcon onClick={() => handleLike(index)} className={`${wishList.includes(index) ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
                             {/* <img src={imgTwo} alt='house-pix' className='rounded-xl object-cover w-full h-64' /> */}
                             <Link to='/rooms'><ImgSlider img={data.img} /></Link>
                         </div>

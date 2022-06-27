@@ -12,8 +12,8 @@ const likeSlice = createSlice({
         },
         setRemove: (state, action) => {
             console.log(action.payload)
-            const index = state.wishList.findIndex((item) => action.payload === item)
-            state.wishList = state.wishList.splice(index, 1)
+            state.wishList = state.wishList.filter((item) => item !== action.payload)
+            console.log(state.wishList)
         }
     }
 })
