@@ -5,7 +5,8 @@ const initialState = {
     lastname: '',
     email: '',
     dateofbirth: '',
-    imgUrl: null
+    imgUrl: null,
+    airbnbUser: null
 }
 
 const userSlice = createSlice({
@@ -18,10 +19,15 @@ const userSlice = createSlice({
             state.dateofbirth = action.payload?.dateofbirth;
             state.email = action.payload?.email;
             state.imgUrl = action.payload?.imgUrl;
+        },
+        setAirbnbUser: (state, action) => {
+            state.airbnbUser = action.payload;
         }
+
+
     }
 })
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setAirbnbUser } = userSlice.actions;
 export const selectUser = (state) => state?.user;
 export default userSlice.reducer;

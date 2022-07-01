@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 const initialState = {
     wishList: []
 }
@@ -12,8 +12,11 @@ const likeSlice = createSlice({
         },
         setRemove: (state, action) => {
             console.log(action.payload)
-            state.wishList = state.wishList.filter((item) => item !== action.payload)
-            console.log(state.wishList)
+            const { id } = action.payload
+            const data = state.wishList
+            const index = data.findIndex(item => id === item.id)
+            console.log(index)
+            data.splice(index, 1)
         }
     }
 })
