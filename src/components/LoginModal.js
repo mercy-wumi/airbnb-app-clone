@@ -84,6 +84,7 @@ const LoginModal = () => {
             <OTPcode
                 openOTP={openOTP}
                 setOpenOTP={setOpenOTP}
+                phone={phone}
             // setLogin={setLogin}
             // otp={otp}
             // setOtp={setOtp}

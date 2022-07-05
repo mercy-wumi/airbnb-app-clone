@@ -10,11 +10,13 @@ const WishLists = () => {
     return (
         <>
             <Navbar />
-            <div className='pt-24 md:pt-28 px-8 md:px-12 lg:px-16 pb-16'>
-                {wishList.map((likes, index) => { return (<WishList likes={likes} />) })}
-                {/* <WishList />
-                <WishList /> */}
-            </div>
+            {wishList.length > 0 ?
+                <div className='pt-24 md:pt-28 px-8 md:px-12 lg:px-16 pb-16'>
+                    {wishList.map((likes) => { return (<WishList likes={likes} />) })}
+                </div>
+                :
+                <div className='pt-24 md:pt-28 px-8 md:px-12 lg:px-16 pb-16 text-center text-gray-800'>No Room added yet..</div>
+            }
             <Footer />
         </>
     )

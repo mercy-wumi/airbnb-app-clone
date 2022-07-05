@@ -1,12 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { HeartIcon, StarIcon } from '@heroicons/react/outline'
-import { setWishList, setRemove } from '../features/likes/likeSlice'
-import ib from '../images/ib.jpg'
+import { setRemove } from '../features/likes/likeSlice'
+import { setRoom } from '../features/home/homeSlice'
 
 const WishList = ({ likes }) => {
     const dispatch = useDispatch()
     const { wishList } = useSelector((store) => store.likes)
+    const { room } = useSelector((store) => store.home)
 
     const handleLike = (id) => {
         console.log(wishList)
@@ -15,15 +17,17 @@ const WishList = ({ likes }) => {
             console.log(dispatch(setRemove(id)))
             console.log(wishList)
         }
-        // else {
-        //     dispatch(setWishList(id))
-        //     console.log(wishList)
-        // }
     }
+
+    const handleRoom = (data) => {
+        console.log(dispatch(setRoom(data)))
+        console.log(room)
+    }
+
     return (
         <>
-            <div className='md:flex w-full text-gray-800 mb-8 text-sm'>
-                <img src={likes.img[0]} alt='experience liked' className='rounded-xl md:w-1/3 xl:w-1/4 h-auto' />
+            <div className='md:flex w-full text-gray-800 mb-8 text-sm' key={likes.id}>
+                <Link to='/rooms' onClick={() => handleRoom(likes)} className='md:w-1/3 xl:w-1/4'><img src={likes.img[0]} alt='experience liked' className='rounded-xl w-full h-auto' /></Link>
                 <div className='flex flex-col justify-between md:ml-4 flex-1 mt-8 md:my-4 my-0'>
                     <div className='flex flex-col'>
                         <div className='flex items-center justify-between'>

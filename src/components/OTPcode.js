@@ -3,8 +3,9 @@ import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogin, openBio } from '../features/modal/modalSlice'
+import { auth } from '../firebase'
 
-const OTPcode = ({ openOTP, setOpenOTP }) => {
+const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
     const dispatch = useDispatch()
 
     const [otp, setOtp] = useState('')
@@ -30,6 +31,21 @@ const OTPcode = ({ openOTP, setOpenOTP }) => {
                 // const user = result.user;
                 console.log(result)
                 // setFinishSignup(true)
+                auth()
+                    .getUserByPhoneNumber(phone)
+                    .then((userRecord) => {
+                        // See the UserRecord reference doc for the contents of userRecord.
+                        console.log(`Successfully fetched user data:  ${userRecord.toJSON()}`);
+                        setOpenOTP(false)
+                    })
+                    .catch((error) => {
+                        console.log('Error fetching user data:', error);
+                        dispatch(openBio())
+                        setOpenOTP(false)
+                    });
+
+
+
                 dispatch(openBio())
                 setOpenOTP(false)
                 // ...

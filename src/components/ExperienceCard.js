@@ -21,6 +21,7 @@ const ExperienceCard = () => {
     const userInfo = useSelector(selectRoom);
     console.log("userInfo", userInfo);
 
+
     const handleLike = (id) => {
         if (airbnbUser) {
             console.log(wishList)
@@ -45,16 +46,16 @@ const ExperienceCard = () => {
 
     return (
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-            {homeData.map((data, index) => {
+            {homeData.map((data) => {
                 return (
-                    <div className='flex flex-col' key={index} onClick={() => handleRoom(data)}>
+                    <div className='flex flex-col' key={data.id}>
                         <div className='relative'>
-                            <HeartIcon key={index} onClick={() => handleLike(data)} className={`${wishList.includes(data) ? 'text-red-700' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
+                            <HeartIcon key={data.id} onClick={() => handleLike(data)} className={`${wishList.find(wish => wish.id === data.id) ? 'text-pink-600' : 'text-gray-700'} z-10 h-8 w-8 right-4 absolute top-4 cursor-pointer`} />
                             {/* <img src={imgTwo} alt='house-pix' className='rounded-xl object-cover w-full h-64' /> */}
-                            <Link to='/rooms'><ImgSlider img={data.img} /></Link>
+                            <Link to='/rooms' onClick={() => handleRoom(data)}><ImgSlider img={data.img} /></Link>
                         </div>
                         <div>
-                            <Link to='/rooms'>
+                            <Link to='/rooms' onClick={() => handleRoom(data)}>
                                 <div className='flex justify-between items-center pt-2'>
                                     <p className='font-semibold'>{data.name}</p>
                                     <div className='flex items-center'>

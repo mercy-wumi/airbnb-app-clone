@@ -10,21 +10,17 @@ import { HeartIcon, ClipboardCheckIcon, ChevronLeftIcon } from '@heroicons/react
 
 
 import 'swiper/css';
-
-import ib from '../images/ib.jpg'
-import benin from '../images/benin.jpg'
-import ikeja from '../images/ikeja.jpg'
-import ph from '../images/ph.jpg'
 import CheckDate from '../components/CheckDate'
 import Bedroom from '../components/Bedroom'
 import Heading from '../components/Heading'
 import { setLogin } from '../features/modal/modalSlice'
-
+import { setWishList, setRemove } from '../features/likes/likeSlice'
 
 const Rooms = () => {
     const dispatch = useDispatch()
     const { room } = useSelector(store => store.home)
     const { airbnbUser } = useSelector((store) => store.user)
+    const { wishList } = useSelector((store) => store.likes)
     const [fixed, setFixed] = useState(false)
     const [like, setLike] = useState(false)
     const [mobWidth, setMobWidth] = useState(window.innerWidth)
@@ -41,13 +37,34 @@ const Rooms = () => {
             setFixed(false)
         }
     }
-    console.log(room.img)
-    const handleLike = (data) => {
+    const containsRoom = wishList.find(wish => wish.id === room.id);
+    // if (wishList.includes(room.id)) {
+    //     console.log('true')
+    // }
+    // else {
+    //     console.log('false')
+    // }
+    console.log(containsRoom)
+    console.log(wishList)
+    console.log(room)
+
+
+    const handleLikeRoom = (room) => {
         if (airbnbUser) {
-            setLike(!like)
+            console.log(wishList)
+            // const containsRoom = wishList.find(wish => wish.id === room.id);
+            if (containsRoom) {
+                console.log('true')
+                console.log(dispatch(setRemove(containsRoom)))
+                console.log(wishList)
+            }
+            else {
+                dispatch(setWishList(room))
+                console.log(wishList)
+                console.log('false')
+            }
         }
         else {
-            console.log('open login')
             dispatch(setLogin())
         }
     }
@@ -61,7 +78,7 @@ const Rooms = () => {
     window.addEventListener('scroll', togglePosition)
 
     return (
-        <>
+        <div key={room.id}>
             {mobWidth < mobileBreakPoint ?
                 <div className='md:hidden'>
                     <div className='flex justify-between items-center p-4'>
@@ -70,7 +87,10 @@ const Rooms = () => {
                             <div className='flex ml-4'><span>Homes</span><span className='px-2'>&middot;</span><span className='hover:underline cursor-pointer'>Airbnb</span></div>
                         </div>
                         {/* <HeartIcon className='h-5 w-5 mr-2' /> */}
-                        <HeartIcon onClick={() => handleLike()} className={`${like ? 'text-red-700' : 'text-gray-700'} h-5 w-5 mr-2 hover:cursor-pointer`} />
+                        <HeartIcon
+                            onClick={() => handleLikeRoom(room)}
+                            className={`${containsRoom ? 'text-pink-600' : 'text-gray-700'} h-5 w-5 mr-2 hover:cursor-pointer`}
+                        />
 
                     </div>
                     <Swiper
@@ -98,7 +118,10 @@ const Rooms = () => {
                         </div>
                         <div className='hidden md:flex items-center'>
                             {/* <HeartIcon className='h-5 w-5 mr-2' /> */}
-                            <HeartIcon onClick={() => handleLike()} className={`${like ? 'text-red-700' : 'text-gray-700'} h-5 w-5 mr-2 hover:cursor-pointer`} />
+                            <HeartIcon
+                                onClick={() => handleLikeRoom(room)}
+                                className={`${containsRoom ? 'text-pink-600' : 'text-gray-700'} h-5 w-5 mr-2 hover:cursor-pointer`}
+                            />
                             <span>Save</span>
                         </div>
                     </div>
@@ -208,7 +231,7 @@ const Rooms = () => {
             </div>
             {/* <FooterMenu /> */}
             <Footer />
-        </>
+        </div>
     )
 }
 
