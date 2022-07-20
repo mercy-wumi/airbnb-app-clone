@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { auth } from "../firebase";
 // import FooterMenu from '../components/FooterMenu'
 import { StarIcon } from '@heroicons/react/solid'
 import { useSelector, useDispatch } from 'react-redux';
+import { setAirbnbUser, setUserId } from '../features/authUser/userSlice'
 import { HeartIcon, ClipboardCheckIcon, ChevronLeftIcon } from '@heroicons/react/outline'
 
 
@@ -20,14 +22,39 @@ const Rooms = () => {
     const dispatch = useDispatch()
     const { room } = useSelector(store => store.home)
     const { airbnbUser } = useSelector((store) => store.user)
+    const { login } = useSelector(store => store.modal)
     const { wishList } = useSelector((store) => store.likes)
     const [fixed, setFixed] = useState(false)
-    const [like, setLike] = useState(false)
+    // const [like, setLike] = useState(false)
     const [mobWidth, setMobWidth] = useState(window.innerWidth)
     const mobileBreakPoint = 768
     const style = {
         borderSection: ' py-4 md:py-8 border-0 border-y-[1px] border-gray-300'
     }
+
+    useEffect(() => {
+        if (login) document.body.style.overflow = 'hidden';
+        else document.body.style.overflow = 'visible';
+    }, [login]);
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
+                // user is logged in
+                console.log(authUser)
+                dispatch(setUserId(authUser.uid));
+                dispatch(setAirbnbUser(authUser));
+            }
+            else {
+                // user logs out
+                dispatch(setAirbnbUser(null))
+            }
+        })
+
+        return () => {
+            unsubscribe();
+        }
+    }, [airbnbUser])
 
     const togglePosition = () => {
         const scrolled = document.documentElement.scrollTop
@@ -65,6 +92,7 @@ const Rooms = () => {
             }
         }
         else {
+            console.log(dispatch(setLogin()))
             dispatch(setLogin())
         }
     }

@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 // import { useDispatch } from 'react-redux'
-import { db } from '../firebase'
-import { collection, addDoc } from 'firebase/firestore/lite'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import UploadProfile from './UploadProfile'
 
 import { setUser, selectUser } from '../features/authUser/userSlice'
-import { openBio, closeBio } from '../features/modal/modalSlice'
+import { closeBio } from '../features/modal/modalSlice'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -39,6 +37,8 @@ const FinishSignup = ({ setOpenOPT }) => {
         setOpenOPT(true)
     }
     const continueToUpload = () => {
+        dispatch(setUser(user))
+        console.log(user)
         dispatch(closeBio())
         setUpload(true)
     }
@@ -75,7 +75,7 @@ const FinishSignup = ({ setOpenOPT }) => {
                     </div>
                 </div>
             </div>
-            <UploadProfile upload={upload} setUpload={setUpload} user={user} setUsers={setUsers} />
+            <UploadProfile upload={upload} setUpload={setUpload} user={user} />
         </>
     )
 }

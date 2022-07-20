@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link } from "react-router-dom";
 import logo from '../images/airbnb.svg'
 import mobileLogo from '../images/airbnb-logo.png'
 import { GlobeAltIcon, MenuIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline'
@@ -10,8 +11,21 @@ import MenuExtra from './MenuExtra';
 
 export default function Navbar() {
     const { imgUrl } = useSelector((store) => store.user)
-
+    let showMenuRef = useRef()
+    let btnMenu = useRef()
     const [open, setOpen] = useState(false)
+
+    useEffect(() => {
+        let handler = (e) => {
+            if (showMenuRef.current && !showMenuRef.current.contains(e.target) && !btnMenu.current.contains(e.target)) {
+                setOpen(false)
+            }
+        }
+        document.addEventListener('mousedown', handler)
+        return () => {
+            document.removeEventListener('mousedown', handler)
+        }
+    })
     const handleOpen = () => {
         setOpen(!open)
     }
@@ -20,12 +34,14 @@ export default function Navbar() {
     }
     return (
         <>
-            <MenuExtra open={open} setOpen={setOpen} />
+            <MenuExtra open={open} setOpen={setOpen} showMenuRef={showMenuRef} />
             <nav className='text-gray-600 bg-white fixed w-full z-20 text-[12px] lg:text-base'>
                 <div className='hidden md:flex justify-between h-20 items-center border-b-[1px]  md:px-10 lg:px-16'>
                     <div className='hidden md:block'>
-                        <img src={logo} alt='airbnb logo' className='hidden lg:block w-28 h-auto object-contain cursor-pointer' />
-                        <img src={mobileLogo} alt='airbnb logo' className='lg:hidden w-10 h-auto object-contain cursor-pointer' />
+                        <Link to='/'>
+                            <img src={logo} alt='airbnb logo' className='hidden lg:block w-28 h-auto object-contain cursor-pointer' />
+                            <img src={mobileLogo} alt='airbnb logo' className='lg:hidden w-10 h-auto object-contain cursor-pointer' />
+                        </Link>
                     </div>
                     <div className='hidden md:flex rounded-full items-center border-[1px] shadow-md py-[8px] px-2 hover:shadow-lg lg:ml-32'>
                         <p className='px-4 font-semibold'>Anywhere</p>
@@ -36,10 +52,10 @@ export default function Navbar() {
                     <div className='md:flex justify-between items-center hidden'>
                         <span className='font-semibold hover:bg-gray-100 py-2 px-4 rounded-full border-0 cursor-pointer'>Become a Host</span>
                         <div className='hover:bg-gray-100 rounded-full border-0 lg:mr-2 cursor-pointer'><GlobeAltIcon className={`m-3 ${style.iconsClass}`} /></div>
-                        <div className='flex rounded-3xl justify-between items-center border-2 p-0.5 hover:shadow-md' onClick={handleOpen}>
+                        <div className='flex rounded-3xl justify-between items-center border-2 p-0.5 hover:shadow-md' ref={btnMenu} onClick={handleOpen}>
                             <MenuIcon className={`mx-2 ${style.iconsClass}`} />
                             <div className='w-1/2 mx-auto'>
-                                {imgUrl ? <img src={imgUrl} alt='profile picture' className='w-8 h-8 rounded-full object-cover' />
+                                {imgUrl ? <img src={URL.createObjectURL(imgUrl)} alt='profile picture' className='w-8 h-8 rounded-full object-cover' />
                                     : <UserCircleIcon className='h-9 w-9' />}
                             </div>
                             {/* {imgUrl && <img src={imgUrl} alt='profile picture' className='w-1/2' />}

@@ -12,14 +12,12 @@ const Footer = () => {
     const [active, setActive] = useState('main')
 
     const handleOpenLogin = () => {
-        dispatch(setLogin())
+        // dispatch(setLogin())
+        dispatch(openBio())
     }
 
     const handleExplore = () => {
         setActive('main')
-        if (active === 'main') {
-            <Navigate to="/" replace={true} />
-        }
     }
     const handleWishlist = () => {
         setActive('wishlist')
@@ -56,10 +54,12 @@ const Footer = () => {
                 </div>
             </footer>
             <footer className='md:hidden flex justify-center items-center w-full px-16 fixed bottom-0 border-t-[1px] h-16 z-20 bg-white text-gray-600 text-[12px]'>
-                <div className='flex flex-col items-center font-semibold mr-9' onClick={handleExplore}>
-                    <SearchIcon className={`${active === 'main' ? style.activeMenu : ''} h-7 w-7`} />
-                    <span>Explore</span>
-                </div>
+                <Link to='/' onClick={handleExplore}>
+                    <div className='flex flex-col items-center font-semibold mr-9'>
+                        <SearchIcon className={`${active === 'main' ? style.activeMenu : ''} h-7 w-7`} />
+                        <span>Explore</span>
+                    </div>
+                </Link>
                 <Link to='/wishlists' onClick={handleWishlist}>
                     <div className='flex flex-col items-center mr-9'>
                         <HeartIcon className={`${active === 'wishlist' ? style.activeMenu : ''} h-7 w-7`} />

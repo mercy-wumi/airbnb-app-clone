@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+    userId: '',
     firstname: '',
     lastname: '',
     email: '',
@@ -18,16 +19,20 @@ const userSlice = createSlice({
             state.lastname = action.payload?.lastname;
             state.dateofbirth = action.payload?.dateofbirth;
             state.email = action.payload?.email;
+        },
+        setImageUrl: (state, action) => {
             state.imgUrl = action.payload?.imgUrl;
         },
         setAirbnbUser: (state, action) => {
             state.airbnbUser = action.payload;
+        },
+        setUserId: (state, { payload }) => {
+            state.userId = payload;
         }
-
 
     }
 })
 
-export const { setUser, setAirbnbUser } = userSlice.actions;
+export const { setUser, setAirbnbUser, setUserId, setImageUrl } = userSlice.actions;
 export const selectUser = (state) => state?.user;
 export default userSlice.reducer;

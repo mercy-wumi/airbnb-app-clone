@@ -3,10 +3,12 @@ import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogin, openBio } from '../features/modal/modalSlice'
-import { auth } from '../firebase'
+import { useNavigate } from 'react-router-dom';
 
 const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
+    const { authUser } = useSelector(store => store.user)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const [otp, setOtp] = useState('')
     // const [finishSignup, setFinishSignup] = useState(false)
@@ -22,32 +24,25 @@ const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
     }
 
     const verifyOTP = () => {
+        if (otp === "" || otp === null) return;
         if (otp.length === 6) {
             console.log(otp)
             console.log('still working...')
             let confirmationResult = window.confirmationResult;
             confirmationResult.confirm(otp).then((result) => {
                 // User signed in successfully.
-                // const user = result.user;
+                const user = result.user;
+                console.log(user)
                 console.log(result)
-                // setFinishSignup(true)
-                auth()
-                    .getUserByPhoneNumber(phone)
-                    .then((userRecord) => {
-                        // See the UserRecord reference doc for the contents of userRecord.
-                        console.log(`Successfully fetched user data:  ${userRecord.toJSON()}`);
-                        setOpenOTP(false)
-                    })
-                    .catch((error) => {
-                        console.log('Error fetching user data:', error);
-                        dispatch(openBio())
-                        setOpenOTP(false)
-                    });
-
-
-
-                dispatch(openBio())
-                setOpenOTP(false)
+                if (authUser === user) {
+                    console.log('go to home')
+                    navigate('/', { replace: true })
+                    setOpenOTP(false)
+                }
+                else {
+                    dispatch(openBio())
+                    setOpenOTP(false)
+                }
                 // ...
             }).catch((error) => {
                 // User couldn't sign in (bad verification code?)

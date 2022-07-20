@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     login: false,
-    addBio: false
+    addBio: false,
+    menuDropdown: false
 }
 
 const modalSlice = createSlice({
@@ -20,7 +21,7 @@ const modalSlice = createSlice({
         },
         closeBio: (state, action) => {
             state.addBio = false;
-        },
+        }
     }
 })
 
