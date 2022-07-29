@@ -8,7 +8,7 @@ import { setAirbnbUser, setUserId } from '../features/authUser/userSlice'
 
 const WishLists = () => {
     const { wishList } = useSelector((store) => store.likes)
-    const { airbnbUser } = useSelector((store) => store.user)
+    // const { airbnbUser } = useSelector((store) => store.user)
     const dispatch = useDispatch()
     console.log(wishList)
     useEffect(() => {
@@ -28,7 +28,9 @@ const WishLists = () => {
         return () => {
             unsubscribe();
         }
-    }, [airbnbUser])
+    })
+
+    // }, [airbnbUser])
     return (
         <div>
             <Navbar />

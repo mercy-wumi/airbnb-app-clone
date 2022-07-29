@@ -55,7 +55,7 @@ export default function Navbar() {
                         <div className='flex rounded-3xl justify-between items-center border-2 p-0.5 hover:shadow-md' ref={btnMenu} onClick={handleOpen}>
                             <MenuIcon className={`mx-2 ${style.iconsClass}`} />
                             <div className='w-1/2 mx-auto'>
-                                {imgUrl ? <img src={URL.createObjectURL(imgUrl)} alt='profile picture' className='w-8 h-8 rounded-full object-cover' />
+                                {imgUrl ? <img src={URL.createObjectURL(imgUrl)} alt='profile img' className='w-8 h-8 rounded-full object-cover' />
                                     : <UserCircleIcon className='h-9 w-9' />}
                             </div>
                             {/* {imgUrl && <img src={imgUrl} alt='profile picture' className='w-1/2' />}

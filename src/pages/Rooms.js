@@ -54,7 +54,7 @@ const Rooms = () => {
         return () => {
             unsubscribe();
         }
-    }, [airbnbUser])
+    })
 
     const togglePosition = () => {
         const scrolled = document.documentElement.scrollTop

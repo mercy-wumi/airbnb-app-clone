@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Navigate, Link } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import FooterMenu from './FooterMenu'
-import { openBio, setLogin } from '../features/modal/modalSlice'
+import { openBio } from '../features/modal/modalSlice'
 import { ChevronUpIcon, GlobeAltIcon, SearchIcon, HeartIcon, UserCircleIcon } from '@heroicons/react/outline'
 
 const Footer = () => {
@@ -12,7 +12,7 @@ const Footer = () => {
     const [active, setActive] = useState('main')
 
     const handleOpenLogin = () => {
-        // dispatch(setLogin())
+        // dispatch(setLogin()) import setLogin
         dispatch(openBio())
     }
 

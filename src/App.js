@@ -1,14 +1,16 @@
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Main from "./pages/Main";
+// import { db } from './firebase'
 import { useEffect } from "react";
 import { auth } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setAirbnbUser, setUserId } from './features/authUser/userSlice'
+// import { collection, getDoc } from "firebase/firestore";
 
 function App() {
   const dispatch = useDispatch()
-  const { airbnbUser } = useSelector((store) => store.user)
+  // const { userId } = useSelector((store) => store.user)
   const { login } = useSelector(store => store.modal)
 
   useEffect(() => {
@@ -17,17 +19,8 @@ function App() {
         // user is logged in
         console.log(authUser)
         dispatch(setUserId(authUser.uid));
-        dispatch(setAirbnbUser(authUser));
-        // if (authUser.displayName) {
-        //   // user has display name
-        // }
-        // else {
-        //   return authUser.updateProfile({
-        //     displayName: firstname,
-        //     email: email,
-        //     photoURL: imgUrl
-        //   })
-        // }
+        // dispatch(setAirbnbUser(authUser));
+
       }
       else {
         // user logs out
@@ -38,7 +31,18 @@ function App() {
     return () => {
       unsubscribe();
     }
-  }, [airbnbUser])
+  })
+  // useEffect(() => {
+  //   getUser()
+  // }, [])
+
+  // const getUser = () => {
+  //   const userData = collection(db, 'user-details', userId)
+  //   getDoc(userData).then(res => {
+  //     console.log(res)
+
+  //   }).catch(err => console.log(err.message))
+  // }
 
   useEffect(() => {
     if (login) document.body.style.overflow = 'hidden';
