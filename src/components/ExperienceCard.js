@@ -1,5 +1,5 @@
 // import imgTwo from '../images/imgTwo.jpg'
-import { useState } from 'react'
+// import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImgSlider from './ImgSlider'
