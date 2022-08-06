@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
 import FinishSignup from './FinishSignup'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogin, openBio } from '../features/modal/modalSlice'
 import { useNavigate } from 'react-router-dom';
+import { auth } from "../firebase";
+import { setAirbnbUser } from '../features/authUser/userSlice'
 
 const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
-    const { authUser } = useSelector(store => store.user)
+    const { airbnbUser } = useSelector(store => store.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -17,6 +19,23 @@ const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
         setOpenOTP(false)
         dispatch(setLogin())
     }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
+                // user is logged in
+                dispatch(setAirbnbUser(authUser));
+            }
+            // else {
+            //   // user logs out
+            //   dispatch(setAirbnbUser(null))
+            // }
+        })
+
+        return () => {
+            unsubscribe();
+        }
+    }, [dispatch])
 
     const handleOTP = (e) => {
         setOtp(e.target.value)
@@ -32,14 +51,19 @@ const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
             confirmationResult.confirm(otp).then((result) => {
                 // User signed in successfully.
                 const user = result.user;
+                // if (airbnbUser === null) {
+                //     dispatch(setAirbnbUser(user))
+                // }
                 console.log(user)
                 console.log(result)
-                if (authUser === user) {
+                // console.log(airbnbUser)
+                if (airbnbUser) {
                     console.log('go to home')
                     navigate('/', { replace: true })
                     setOpenOTP(false)
                 }
                 else {
+                    // dispatch(setAirbnbUser(user))
                     dispatch(openBio())
                     setOpenOTP(false)
                 }

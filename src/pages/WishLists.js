@@ -19,16 +19,16 @@ const WishLists = () => {
                 dispatch(setUserId(authUser.uid));
                 dispatch(setAirbnbUser(authUser));
             }
-            else {
-                // user logs out
-                dispatch(setAirbnbUser(null))
-            }
+            // else {
+            //     // user logs out
+            //     dispatch(setAirbnbUser(null))
+            // }
         })
 
         return () => {
             unsubscribe();
         }
-    })
+    }, [dispatch])
 
     // }, [airbnbUser])
     return (

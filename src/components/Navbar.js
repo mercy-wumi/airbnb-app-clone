@@ -6,6 +6,9 @@ import { GlobeAltIcon, MenuIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/
 import { UserCircleIcon } from '@heroicons/react/solid'
 import { useSelector } from 'react-redux'
 import MenuExtra from './MenuExtra';
+import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { db } from '../firebase'
+
 // import NavTab from './NavTab'
 
 
@@ -14,6 +17,7 @@ export default function Navbar() {
     let showMenuRef = useRef()
     let btnMenu = useRef()
     const [open, setOpen] = useState(false)
+    // const [docId, setDocId] = useState('')
 
     useEffect(() => {
         let handler = (e) => {
@@ -26,6 +30,54 @@ export default function Navbar() {
             document.removeEventListener('mousedown', handler)
         }
     })
+    // Currently, users can signup with their phone number, get otp code and have access to like house, view wishlist, etc.
+
+    // Want to get get individual document to populate the UI
+
+    // when different users signup, on an app that uses firebase as backend, all users data
+    // gets stored in the same firestore database. How do I get each users data?
+
+    // currently, I have all the functionalities working in the frontend - like house/apartment, mobile responsiveness,
+    // state management across all components, view individual room, populate wishlist according to rooms like.
+
+    // yet to handle login validation
+
+    const getUser = () => {
+        const userData = collection(db, 'user-details')
+        getDocs(userData).then(res => {
+            console.log(res)
+            const docRef = doc(db, "user-details", res.docs.id)
+            const docSnap = getDoc(docRef)
+
+            if (docSnap.exists()) {
+                console.log(docSnap.data())
+            } else {
+                console.log("No such document!")
+            }
+
+        }).catch(err => console.log(err.message))
+    }
+
+    // const getUser = async () => {
+
+    // here I supplied a doc id manually to fetch an individual user data but I want to be able to look
+    // through the whole database and select the document that contains a supplied user id.
+
+    //     const docRef = doc(db, "user-details", 'PeSRHhTJ7ehYAYOwfVFI')
+    //     const docSnap = await getDoc(docRef)
+
+    //     if (docSnap.exists()) {
+    //         console.log(docSnap.data())
+    //     } else {
+    //         console.log("No such document!")
+    //     }
+    // }
+
+
+    useEffect(() => {
+        getUser()
+    }, [])
+
     const handleOpen = () => {
         setOpen(!open)
     }

@@ -23,6 +23,10 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
         }
         console.log(imgUrl)
     }
+
+    // I was able to push some user details to the database but I haven't pushed some data like
+    //  room (room/house been clicked to view the room details), wishlist (apartment liked)
+
     const handleImageUpload = (e) => {
         if (!imgUrl) {
             alert("Please choose a file first!")
@@ -49,9 +53,6 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
                             .then(url => {
                                 const addImg = doc(db, 'user-details', res.id);
                                 setDoc(addImg, { imgUrl: url }, { merge: true });
-
-                                // const addImg = doc(db, 'user-details', userId);
-                                // updateDoc(addImg, { imgUrl: url });
                                 dispatch(setImageUrl(url))
                                 console.log(user)
                                 setUpload(false)

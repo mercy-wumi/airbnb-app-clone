@@ -10,7 +10,7 @@ import { setAirbnbUser, setUserId } from './features/authUser/userSlice'
 
 function App() {
   const dispatch = useDispatch()
-  // const { userId } = useSelector((store) => store.user)
+  // const { airbnbUser } = useSelector((store) => store.user)
   const { login } = useSelector(store => store.modal)
 
   useEffect(() => {
@@ -19,19 +19,19 @@ function App() {
         // user is logged in
         console.log(authUser)
         dispatch(setUserId(authUser.uid));
-        // dispatch(setAirbnbUser(authUser));
-
+        dispatch(setAirbnbUser(authUser));
       }
-      else {
-        // user logs out
-        dispatch(setAirbnbUser(null))
-      }
+      // else {
+      //     // user logs out
+      //     dispatch(setAirbnbUser(null))
+      // }
     })
 
     return () => {
       unsubscribe();
     }
-  })
+  }, [dispatch])
+
   // useEffect(() => {
   //   getUser()
   // }, [])

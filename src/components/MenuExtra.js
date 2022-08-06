@@ -2,6 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LoginModal from './LoginModal'
 import { setLogin } from '../features/modal/modalSlice'
+import { setAirbnbUser } from '../features/authUser/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { auth, signOut } from '../firebase'
 
@@ -17,7 +18,8 @@ const MenuExtra = ({ open, setOpen, showMenuRef }) => {
     }
     const handleLogout = () => {
         signOut(auth).then(() => {
-            navigate('/', { return: true })
+            navigate('/', { replace: true })
+            dispatch(setAirbnbUser(null))
             console.log('Sign-out successful');
         }).catch((error) => {
             console.log(error)

@@ -45,16 +45,16 @@ const Rooms = () => {
                 dispatch(setUserId(authUser.uid));
                 dispatch(setAirbnbUser(authUser));
             }
-            else {
-                // user logs out
-                dispatch(setAirbnbUser(null))
-            }
+            // else {
+            //     // user logs out
+            //     dispatch(setAirbnbUser(null))
+            // }
         })
 
         return () => {
             unsubscribe();
         }
-    })
+    }, [dispatch])
 
     const togglePosition = () => {
         const scrolled = document.documentElement.scrollTop
