@@ -32,7 +32,7 @@ const WishLists = () => {
 
     // }, [airbnbUser])
     return (
-        <div>
+        <div className=' max-w-[1400px] mx-auto'>
             <Navbar />
             {wishList.length > 0 ?
                 <div className='pt-24 md:pt-28 px-8 md:px-12 lg:px-16 pb-16'>

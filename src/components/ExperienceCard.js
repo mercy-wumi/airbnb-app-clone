@@ -8,12 +8,16 @@ import { StarIcon } from '@heroicons/react/solid'
 import { setWishList, setRemove } from '../features/likes/likeSlice'
 import { setRoom, selectRoom } from '../features/home/homeSlice'
 import { setLogin } from '../features/modal/modalSlice'
+import { auth, db } from "../firebase";
+
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore'
+
 
 const ExperienceCard = () => {
     const dispatch = useDispatch()
     const { room, homeData } = useSelector((store) => store.home)
     const { wishList } = useSelector((store) => store.likes)
-    const { airbnbUser } = useSelector((store) => store.user)
+    const { airbnbUser, userId } = useSelector((store) => store.user)
 
     // const [active, setActive] = useState([])
     // const [room, setRoom] = useState(null)
@@ -22,7 +26,7 @@ const ExperienceCard = () => {
     console.log("userInfo", userInfo);
 
 
-    const handleLike = (id) => {
+    const handleLike = async (id) => {
         if (airbnbUser) {
             console.log(wishList)
             if (wishList.includes(id)) {
@@ -33,6 +37,20 @@ const ExperienceCard = () => {
             else {
                 dispatch(setWishList(id))
                 console.log(wishList)
+                await addDoc(collection(db, 'user-data'), {
+                    wishList: wishList,
+                    userId: userId
+                }).then(res => {
+                    console.log('data added')
+                    const addImg = doc(db, 'user-data', res.id);
+                    setDoc(addImg, {
+                        wishList: wishList,
+                    }, { merge: true });
+                }).catch(err => {
+                    console.log(err.message)
+                })
+
+
             }
         }
         else {
@@ -45,7 +63,7 @@ const ExperienceCard = () => {
     }
 
     return (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6'>
             {homeData.map((data) => {
                 return (
                     <div className='flex flex-col' key={data.id}>

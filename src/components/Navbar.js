@@ -4,16 +4,24 @@ import logo from '../images/airbnb.svg'
 import mobileLogo from '../images/airbnb-logo.png'
 import { GlobeAltIcon, MenuIcon, SearchIcon, AdjustmentsIcon } from '@heroicons/react/outline'
 import { UserCircleIcon } from '@heroicons/react/solid'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import MenuExtra from './MenuExtra';
-import { doc, getDoc, getDocs, collection } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, query, where } from "firebase/firestore";
 import { db } from '../firebase'
+
+import { auth } from "../firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { setAirbnbUser, setUserId } from '../features/authUser/userSlice'
+
 
 // import NavTab from './NavTab'
 
 
 export default function Navbar() {
-    const { imgUrl } = useSelector((store) => store.user)
+
+    const dispatch = useDispatch()
+
+    const { imgUrl, userId, airbnbUser } = useSelector((store) => store.user)
     let showMenuRef = useRef()
     let btnMenu = useRef()
     const [open, setOpen] = useState(false)
@@ -42,20 +50,50 @@ export default function Navbar() {
 
     // yet to handle login validation
 
-    const getUser = () => {
-        const userData = collection(db, 'user-details')
-        getDocs(userData).then(res => {
-            console.log(res)
-            const docRef = doc(db, "user-details", res.docs.id)
-            const docSnap = getDoc(docRef)
+    // const getUser = () => {
+    //     const userData = collection(db, 'user-details')
+    //     getDocs(userData).then(res => {
+    //         console.log(res)
+    //         const docRef = doc(db, "user-details", res.docs.id)
+    //         const docSnap = getDoc(docRef)
 
-            if (docSnap.exists()) {
-                console.log(docSnap.data())
-            } else {
-                console.log("No such document!")
+    //         if (docSnap.exists()) {
+    //             console.log(docSnap.data())
+    //         } else {
+    //             console.log("No such document!")
+    //         }
+
+    //     }).catch(err => console.log(err.message))
+    // }
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged((authUser) => {
+            if (authUser) {
+                // user is logged in
+                console.log(authUser)
+                dispatch(setUserId(authUser.uid));
+                dispatch(setAirbnbUser(authUser));
             }
+            // else {
+            //     // user logs out
+            //     dispatch(setAirbnbUser(null))
+            // }
+        })
 
-        }).catch(err => console.log(err.message))
+        return () => {
+            unsubscribe();
+        }
+    }, [dispatch])
+
+    const getUser = async () => {
+        const userData = (collection(db, 'user-details', userId))
+        const docSnap = await getDoc(userData)
+
+        if (docSnap.exists()) {
+            console.log(docSnap.data())
+        } else {
+            console.log("No such document!")
+        }
     }
 
     // const getUser = async () => {
@@ -75,7 +113,13 @@ export default function Navbar() {
 
 
     useEffect(() => {
-        getUser()
+        if (airbnbUser) {
+            getUser()
+            console.log('we have a user')
+        }
+        else {
+            console.log('no user')
+        }
     }, [])
 
     const handleOpen = () => {
@@ -87,8 +131,8 @@ export default function Navbar() {
     return (
         <>
             <MenuExtra open={open} setOpen={setOpen} showMenuRef={showMenuRef} />
-            <nav className='text-gray-600 bg-white fixed w-full z-20 text-[12px] lg:text-base'>
-                <div className='hidden md:flex justify-between h-20 items-center border-b-[1px]  md:px-10 lg:px-16'>
+            <nav className='text-gray-600 bg-white fixed w-screen left-0 z-20 text-[12px] lg:text-base border-b-[1px]'>
+                <div className='hidden md:flex justify-between h-20 items-center md:px-10 lg:px-16 max-w-[1400px] mx-auto'>
                     <div className='hidden md:block'>
                         <Link to='/'>
                             <img src={logo} alt='airbnb logo' className='hidden lg:block w-28 h-auto object-contain cursor-pointer' />

@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore'
+
 // import FooterMenu from '../components/FooterMenu'
 import { StarIcon } from '@heroicons/react/solid'
 import { useSelector, useDispatch } from 'react-redux';
@@ -21,7 +23,7 @@ import { setWishList, setRemove } from '../features/likes/likeSlice'
 const Rooms = () => {
     const dispatch = useDispatch()
     const { room } = useSelector(store => store.home)
-    const { airbnbUser } = useSelector((store) => store.user)
+    const { airbnbUser, userId } = useSelector((store) => store.user)
     const { login } = useSelector(store => store.modal)
     const { wishList } = useSelector((store) => store.likes)
     const [fixed, setFixed] = useState(false)
@@ -76,7 +78,7 @@ const Rooms = () => {
     console.log(room)
 
 
-    const handleLikeRoom = (room) => {
+    const handleLikeRoom = async (room) => {
         if (airbnbUser) {
             console.log(wishList)
             // const containsRoom = wishList.find(wish => wish.id === room.id);
@@ -89,6 +91,16 @@ const Rooms = () => {
                 dispatch(setWishList(room))
                 console.log(wishList)
                 console.log('false')
+
+                // want to send room data to firebase
+                await addDoc(collection(db, 'user-data'), {
+                    wishList: wishList,
+                    userId: userId
+                }).then(res => {
+                    console.log('data added')
+                }).catch(err => {
+                    console.log(err.message)
+                })
             }
         }
         else {
@@ -135,7 +147,7 @@ const Rooms = () => {
                 </div>
                 : <Navbar />
             }
-            <div className='px-8 md:px-10 lg:px-16 relative md:pt-20'>
+            <div className='px-8 md:px-10 lg:px-16 relative md:pt-20 max-w-[1400px] mx-auto'>
                 <div className='py-6'>
                     <p className='text-2xl lg:text-3xl font-semibold'>Villa Vista Mirissa by The Serendipity Collection</p>
                     <div className='md:flex justify-between items-center'>
@@ -165,7 +177,7 @@ const Rooms = () => {
                     </div>
                 </div>
                 <div className='flex'>
-                    <div className='w-full md:w-7/12  py-2 md:py-6 relative'>
+                    <div className='w-full md:w-7/12 py-2 md:py-6 relative'>
                         <p className='hidden md:block text-2xl font-semibold'>Entire Villa hosted by The Serendipity Collection</p>
                         {/* <Heading title='Entire Villa hosted by The Serendipity Collection' /> */}
                         <div className='hidden md:flex mt-2 mb-6'>
@@ -252,7 +264,7 @@ const Rooms = () => {
                             <button className='border-[1px] border-black px-6  mt-3 mb-12 lg:mt-0 py-3 font-semibold rounded-xl'>Show all 74 amenties</button>
                         </div>
                     </div>
-                    <div className='md:w-5/12'>
+                    <div className='md:w-5/12 relative w-full'>
                         <CheckDate fixed={fixed} />
                     </div>
                 </div>
