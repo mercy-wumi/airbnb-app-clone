@@ -46,7 +46,7 @@ const LoginModal = () => {
     }
     return (
         <>
-            <div className={`${login ? ' block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
+            <div className={`${login ? ' block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed left-0`}>
                 <div className='w-9/12 lg:w-5/12 relative h-5/6 bg-white text-black rounded-xl overflow-auto'>
                     <div className='px-4 flex font-bold h-16 justify-start items-center border-b-[1px] fixed w-9/12 lg:w-5/12 bg-white rounded-t-xl'>
                         <div className='flex justify-between w-full'>

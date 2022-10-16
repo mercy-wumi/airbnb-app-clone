@@ -64,7 +64,7 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
     }
 
     return (
-        <div className={`${upload ? 'block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed`}>
+        <div className={`${upload ? 'block' : 'hidden'} w-screen h-screen bg-black/[.5] flex items-center justify-center z-50 fixed left-0`}>
             <div className='w-2/3 lg:w-1/3 relative bg-white text-black h-auto rounded-xl'>
                 <div className='px-4 flex font-bold h-16 items-center justify-between border-b-[1px] fixed w-2/3 lg:w-1/3 bg-white rounded-t-xl'>
                     <div className='hover:bg-gray-100 rounded-full border-0 cursor-pointer w-8 h-8 flex items-center justify-center'><ChevronLeftIcon className='h-5 w-5' onClick={handleBack} /></div>
