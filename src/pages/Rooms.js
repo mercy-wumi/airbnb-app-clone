@@ -29,6 +29,7 @@ const Rooms = () => {
     const [fixed, setFixed] = useState(false)
     // const [like, setLike] = useState(false)
     const [mobWidth, setMobWidth] = useState(window.innerWidth)
+
     const mobileBreakPoint = 768
     const style = {
         borderSection: ' py-4 md:py-8 border-0 border-y-[1px] border-gray-300'
@@ -58,14 +59,24 @@ const Rooms = () => {
         }
     }, [dispatch])
 
-    const togglePosition = () => {
-        const scrolled = document.documentElement.scrollTop
-        if (scrolled > 500) {
-            setFixed(true)
-        } else if (scrolled <= 500) {
-            setFixed(false)
+
+    useEffect(() => {
+        const togglePosition = () => {
+            const scrolled = document.documentElement.scrollTop
+
+            if (scrolled > 500) {
+                setFixed(true)
+            } else if (scrolled <= 500) {
+                setFixed(false)
+            }
         }
-    }
+        window.addEventListener('scroll', togglePosition)
+        return () => { window.removeEventListener('scroll', togglePosition) }
+    }, [])
+
+    console.log(fixed)
+    // console.log(scrolled)
+
     const containsRoom = wishList.find(wish => wish.id === room.id);
     // if (wishList.includes(room.id)) {
     //     console.log('true')
@@ -115,7 +126,7 @@ const Rooms = () => {
         return () => window.removeEventListener("resize", () => setMobWidth(window.innerWidth));
 
     }, [])
-    window.addEventListener('scroll', togglePosition)
+
 
     return (
         <div key={room.id}>

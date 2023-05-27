@@ -25,8 +25,7 @@ export default function Navbar() {
     let showMenuRef = useRef()
     let btnMenu = useRef()
     const [open, setOpen] = useState(false)
-    // const [docId, setDocId] = useState('')
-
+    const [photoURL, setPhotoURL] = useState(null)
     useEffect(() => {
         let handler = (e) => {
             if (showMenuRef.current && !showMenuRef.current.contains(e.target) && !btnMenu.current.contains(e.target)) {
@@ -38,33 +37,6 @@ export default function Navbar() {
             document.removeEventListener('mousedown', handler)
         }
     })
-    // Currently, users can signup with their phone number, get otp code and have access to like house, view wishlist, etc.
-
-    // Want to get get individual document to populate the UI
-
-    // when different users signup, on an app that uses firebase as backend, all users data
-    // gets stored in the same firestore database. How do I get each users data?
-
-    // currently, I have all the functionalities working in the frontend - like house/apartment, mobile responsiveness,
-    // state management across all components, view individual room, populate wishlist according to rooms like.
-
-    // yet to handle login validation
-
-    // const getUser = () => {
-    //     const userData = collection(db, 'user-details')
-    //     getDocs(userData).then(res => {
-    //         console.log(res)
-    //         const docRef = doc(db, "user-details", res.docs.id)
-    //         const docSnap = getDoc(docRef)
-
-    //         if (docSnap.exists()) {
-    //             console.log(docSnap.data())
-    //         } else {
-    //             console.log("No such document!")
-    //         }
-
-    //     }).catch(err => console.log(err.message))
-    // }
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -84,6 +56,12 @@ export default function Navbar() {
             unsubscribe();
         }
     }, [dispatch])
+
+    useEffect(() => {
+        if (airbnbUser?.photoURL) {
+            setPhotoURL(airbnbUser.photoURL)
+        }
+    }, [airbnbUser])
 
     const getUser = async () => {
         const userData = (collection(db, 'user-details', userId))
@@ -151,7 +129,7 @@ export default function Navbar() {
                         <div className='flex rounded-3xl justify-between items-center border-2 p-0.5 hover:shadow-md' ref={btnMenu} onClick={handleOpen}>
                             <MenuIcon className={`mx-2 ${style.iconsClass}`} />
                             <div className='w-1/2 mx-auto'>
-                                {imgUrl ? <img src={URL.createObjectURL(imgUrl)} alt='profile img' className='w-8 h-8 rounded-full object-cover' />
+                                {photoURL ? <img src={photoURL} alt='profile img' className='w-8 h-8 rounded-full object-cover' />
                                     : <UserCircleIcon className='h-9 w-9' />}
                             </div>
                             {/* {imgUrl && <img src={imgUrl} alt='profile picture' className='w-1/2' />}

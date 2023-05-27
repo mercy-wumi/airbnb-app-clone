@@ -9,6 +9,7 @@ import { closeLogin } from '../features/modal/modalSlice'
 const LoginModal = () => {
     const dispatch = useDispatch()
     const { login } = useSelector((store) => store.modal)
+    const { registeredUser } = useSelector(store => store.user)
     const [phone, setPhone] = useState('')
     const [openOTP, setOpenOTP] = useState(false)
 
@@ -28,17 +29,24 @@ const LoginModal = () => {
 
     const signup = () => {
 
-        generateRecaptcha()
-        let appVerifier = window.recaptchaVerifier
-        signInWithPhoneNumber(auth, phone, appVerifier)
-            .then(confirmationResult => {
-                window.confirmationResult = confirmationResult;
-            }).catch((error) => {
-                // Error; SMS not sent
-                console.log(error)
-            });
-        dispatch(closeLogin())
-        setOpenOTP(true)
+
+        if (registeredUser) {
+            console.log('user already exists')
+        }
+
+        else {
+            generateRecaptcha()
+            let appVerifier = window.recaptchaVerifier
+            signInWithPhoneNumber(auth, phone, appVerifier)
+                .then(confirmationResult => {
+                    window.confirmationResult = confirmationResult;
+                }).catch((error) => {
+                    // Error; SMS not sent
+                    console.log(error)
+                });
+            dispatch(closeLogin())
+            setOpenOTP(true)
+        }
     }
 
     const style = {

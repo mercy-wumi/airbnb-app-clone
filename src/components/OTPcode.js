@@ -1,41 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { ChevronLeftIcon } from '@heroicons/react/outline'
-import FinishSignup from './FinishSignup'
+// import FinishSignup from './FinishSignup'
+import UploadProfile from './UploadProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { setLogin, openBio } from '../features/modal/modalSlice'
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../firebase";
-import { setAirbnbUser } from '../features/authUser/userSlice'
+import { setAirbnbUser, setResgisteredUser } from '../features/authUser/userSlice'
 
 const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
-    const { airbnbUser } = useSelector(store => store.user)
+    const { registeredUser } = useSelector(store => store.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const [otp, setOtp] = useState('')
+    const [upload, setUpload] = useState(false)
+
     // const [finishSignup, setFinishSignup] = useState(false)
 
     const handleBack = () => {
         setOpenOTP(false)
         dispatch(setLogin())
     }
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((authUser) => {
-            if (authUser) {
-                // user is logged in
-                dispatch(setAirbnbUser(authUser));
-            }
-            // else {
-            //   // user logs out
-            //   dispatch(setAirbnbUser(null))
-            // }
-        })
-
-        return () => {
-            unsubscribe();
-        }
-    }, [dispatch])
 
     const handleOTP = (e) => {
         setOtp(e.target.value)
@@ -51,20 +37,22 @@ const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
             confirmationResult.confirm(otp).then((result) => {
                 // User signed in successfully.
                 const user = result.user;
-                // if (airbnbUser === null) {
-                //     dispatch(setAirbnbUser(user))
-                // }
                 console.log(user)
                 console.log(result)
-                // console.log(airbnbUser)
-                if (airbnbUser) {
+
+                if (registeredUser) {
+                    console.log(registeredUser)
+                    console.log('going to homepage')
                     console.log('go to home')
                     navigate('/', { replace: true })
                     setOpenOTP(false)
+                    return
                 }
                 else {
-                    // dispatch(setAirbnbUser(user))
-                    dispatch(openBio())
+                    dispatch(setResgisteredUser())
+                    console.log(registeredUser)
+                    console.log('showing upload image')
+                    setUpload(true)
                     setOpenOTP(false)
                 }
                 // ...
@@ -94,11 +82,12 @@ const OTPcode = ({ openOTP, setOpenOTP, phone }) => {
                     </div>
                 </div>
             </div>
-            <FinishSignup
+            {/* <FinishSignup
                 // finishSignup={finishSignup}
                 // setFinishSignup={setFinishSignup}
                 setOpenOTP={setOpenOTP}
-            />
+            /> */}
+            <UploadProfile setOpenOTP={setOpenOTP} upload={upload} setUpload={setUpload} />
         </>
     )
 }

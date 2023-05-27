@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const signInUser = localStorage.getItem('user') != null ? JSON.parse(localStorage.getItem('user')) : null;
+
 const initialState = {
     userId: '',
     firstname: '',
@@ -7,7 +9,8 @@ const initialState = {
     email: '',
     dateofbirth: '',
     imgUrl: null,
-    airbnbUser: null
+    registeredUser: false,
+    airbnbUser: signInUser
 }
 
 const userSlice = createSlice({
@@ -25,14 +28,18 @@ const userSlice = createSlice({
         },
         setAirbnbUser: (state, action) => {
             state.airbnbUser = action.payload;
+            localStorage.setItem('user', JSON.stringify(state.airbnbUser))
         },
         setUserId: (state, { payload }) => {
             state.userId = payload;
+        },
+        setResgisteredUser: (state) => {
+            state.registeredUser = true;
         }
 
     }
 })
 
-export const { setUser, setAirbnbUser, setUserId, setImageUrl } = userSlice.actions;
+export const { setUser, setAirbnbUser, setUserId, setImageUrl, setResgisteredUser, registeredUser } = userSlice.actions;
 export const selectUser = (state) => state?.user;
 export default userSlice.reducer;

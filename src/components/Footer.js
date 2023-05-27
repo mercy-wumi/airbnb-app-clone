@@ -32,7 +32,7 @@ const Footer = () => {
     }
     return (
         <>
-            <footer className='w-screen fixed bottom-0 border-t-[1px] left-0'>
+            <footer className='w-screen fixed bottom-0 border-t-[1px] left-0 z-40'>
                 <div className={`${openFooterMenu ? 'hidden' : 'none'} hidden md:flex justify-between items-center w-full md:px-10 lg:px-16  h-12 z-20 bg-white text-gray-600 text-[12px] lg:text-[14.5px] max-w-[1400px] mx-auto`}>
                     <div className='flex items-center flex-wrap w-1/2'>
                         <span>© {(new Date().getFullYear())} Airbnb, inc.</span>

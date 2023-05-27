@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { storage, db } from '../firebase'
+import { storage, db, updateProfile } from '../firebase'
 import { useSelector, useDispatch } from 'react-redux'
 import { collection, addDoc, doc, setDoc } from 'firebase/firestore'
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -8,14 +8,17 @@ import { ChevronLeftIcon, UserCircleIcon } from '@heroicons/react/outline'
 import { openBio } from '../features/modal/modalSlice'
 import { setImageUrl } from '../features/authUser/userSlice'
 
-const UploadProfile = ({ upload, setUpload, user, }) => {
+const UploadProfile = ({ setOpenOPT, upload, setUpload }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const { firstname, lastname, dateofbirth, email, userId } = useSelector((store) => store.user)
+    const { firstname, lastname, dateofbirth, email, userId, airbnbUser } = useSelector((store) => store.user)
     const [imgUrl, setImgUrl] = useState('')
+    const [uploadImg, setUploadImg] = useState(false)
+
     const handleBack = () => {
         setUpload(false)
         dispatch(openBio())
+        setOpenOPT(true)
     }
     const handleImgChange = (e) => {
         if (e.target.files[0]) {
@@ -42,6 +45,7 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
         }).then(res => {
             if (imgUrl) {
                 const storageRef = ref(storage, `images/${imgUrl.name}`);
+                setUploadImg(true)
                 const uploadTask = uploadBytesResumable(storageRef, imgUrl);
 
                 uploadTask.on(
@@ -51,10 +55,10 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
                     () => {
                         getDownloadURL(storageRef)
                             .then(url => {
+                                setUploadImg(false)
                                 const addImg = doc(db, 'user-details', res.id);
                                 setDoc(addImg, { imgUrl: url }, { merge: true });
-                                dispatch(setImageUrl(url))
-                                console.log(user)
+                                console.log(updateProfile(airbnbUser, { photoURL: url }))
                                 setUpload(false)
                                 navigate('/')
                             })
@@ -78,7 +82,7 @@ const UploadProfile = ({ upload, setUpload, user, }) => {
                             : <UserCircleIcon className='w-full h-auto' />}
                     </div>
                     <input type='file' accept="image/*" name='upload' onChange={handleImgChange} className=' w-full flex justify-center items-center bg-black text-white rounded-xl border-0' />
-                    <button className='px-2 bg-black text-white rounded-lg block' onClick={handleImageUpload}>upload</button>
+                    <button className={`${uploadImg ? 'cursor-not-allowed' : ''} px-2 bg-black text-white rounded-lg block`} onClick={handleImageUpload}>upload</button>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import LoginModal from './LoginModal'
 import { setLogin } from '../features/modal/modalSlice'
@@ -18,6 +18,8 @@ const MenuExtra = ({ open, setOpen, showMenuRef }) => {
     }
     const handleLogout = () => {
         signOut(auth).then(() => {
+            localStorage.clear();
+            localStorage.removeItem('wishList')
             navigate('/', { replace: true })
             dispatch(setAirbnbUser(null))
             console.log('Sign-out successful');
@@ -25,6 +27,9 @@ const MenuExtra = ({ open, setOpen, showMenuRef }) => {
             console.log(error)
         });
     }
+    useEffect(() => {
+
+    }, [])
     const style = {
         list: 'py-2 px-4 hover:bg-gray-100 text-base'
     }
